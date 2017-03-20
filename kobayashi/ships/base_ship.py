@@ -12,6 +12,9 @@ class Ship(metaclass=abc.ABCMeta):
         self.speed = speed
         self.crew = {}
 
+    def __int__(self):
+        return self.coords[-1]
+
     def register_crewmember(self, person, role):
         self.crew[role] = person
 
