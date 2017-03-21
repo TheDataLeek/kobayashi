@@ -5,7 +5,7 @@ import random
 
 
 class Ship(metaclass=abc.ABCMeta):
-    def __init__(self, hp=10, speed=10, team=1, level=None, coords=None):
+    def __init__(self, hp=10, speed=0, armor=0, crew_min=1, crew_max=1, armor_class=9, max_power=5, max_mass=2, max_hardpoints=1, ship_class=0, team=1, level=None, coords=None):
         self.team = team
         self.AI_level = 0 if level is None else level
         self.coords = coords
@@ -13,6 +13,14 @@ class Ship(metaclass=abc.ABCMeta):
         self.speed = speed
         self.crew = {}
         self.hp = hp
+        self.armor = armor
+        self.crew_min = crew_min
+        self.crew_max = crew_max
+        self.armor_class = armor_class
+        self.max_power = max_power
+        self.max_mass = max_mass
+        self.max_hardpoints = max_hardpoints
+        self.ship_class = ship_class
 
     def __int__(self):
         return self.team
