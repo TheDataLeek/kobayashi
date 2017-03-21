@@ -6,7 +6,7 @@ import kobayashi as kob
 
 
 def main():
-    arena = kob.arena.Arena(30, 30, layers=3)
+    arena = kob.arena.Arena()
     arena.register_ship((0, 2, 1), kob.generate_ship(kob.Fighter))
     arena.register_ship((10, 20, 2), kob.generate_ship(kob.Fighter))
     arena.register_ship((13, 21, 2), kob.generate_ship(kob.Fighter))
@@ -16,7 +16,7 @@ def main():
 
     for _ in range(20):
         arena.tick()
-        arena.show()
+        # arena.show()
 
 
 

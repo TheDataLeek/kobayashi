@@ -15,6 +15,11 @@ def dice(numdice, dicesides, droplowcount=0):
     return sum(rolls)
 
 
+def parameterize_towards_point(coords):
+    pass
+
+
+
 # Exceptions
 
 class FullCrewException(Exception): pass

@@ -27,4 +27,4 @@ def generate_crew(count):
 def generate_pilot():
     attributes = [dice(4, 6, droplowcount=1) for _ in range(6)]
     level = random.randint(1, 5)
-    return Pilot(level, attributes)
+    return Pilot('expert', level, attributes)

@@ -13,13 +13,14 @@ class Ship(metaclass=abc.ABCMeta):
         self.speed = speed
         self.crew = {}
         self.hp = hp
+        self.destroyed = False
 
     def __int__(self):
         return self.team
 
     def remove(self, arena):
-        arena.arena[self.coords] = None
-        arena.ships.remove(self)
+        arena[self.coords] = None
+        self.destroyed = True
 
     def threat_level(self, ship):
         if ship.team == self.team:
@@ -29,7 +30,7 @@ class Ship(metaclass=abc.ABCMeta):
     def attack(self, arena):
         close_ships, num_within_range = self.list_close_ships(arena)
         if num_within_range == 0:
-            raise NoTargetsAvailable()
+            raise NoTargetsAvailable
         for s, d, w, inrange, threat in close_ships:
             if inrange and s.team != self.team:
                 s.hp -= w.wdamage
@@ -49,26 +50,26 @@ class Ship(metaclass=abc.ABCMeta):
             if distance(self.coords, new_loc) > self.speed:
                 raise NotEnoughSpeed(f'{distance(self.coords, new_loc)} > {self.speed}')
             else:
-                arena.arena[self.coords] = None
+                arena[self.coords] = None
                 self.coords = new_loc
-                arena.arena[self.coords] = self
+                arena[self.coords] = self
         # Otherwise use AI
         else:
-            arena.arena[self.coords] = None
+            arena[self.coords] = None
             if self.AI_level == 0:
-                self.coords = self.random_jitter(arena.arena.shape)
-            arena.arena[self.coords] = self
+                self.coords = self.random_jitter()
+            arena[self.coords] = self
 
-    def random_jitter(self, shape):
-        return tuple(min(max(_ + random.randint(-1, 1), 0), shape[i] - 1)
-                            for i, _ in enumerate(self.coords))
+    def random_jitter(self):
+        return tuple(_ + random.randint(-1, 1)
+                     for i, _ in enumerate(self.coords))
 
     def list_close_ships(self, arena):
         """
         Returns a list of all ships sorted by threat level descending that are within range
         """
         ships = []
-        for ship in arena.ships:
+        for coord, ship in arena.arena.items():
             d = distance(self.coords, ship.coords)
             for w in self.weapons:
                 ships.append((ship, d, w, d < w.wrange, self.threat_level(ship)))
@@ -87,9 +88,8 @@ class Ship(metaclass=abc.ABCMeta):
             else:
                 raise FullCrewException(f'Capacity is at {self.capacity}.')
 
-    @abc.abstractmethod
     def register_weapon(self, weapon):
-        pass
+        self.weapons.append(weapon)
 
     @abc.abstractproperty
     def capacity(self):
