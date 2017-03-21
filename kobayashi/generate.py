@@ -1,13 +1,20 @@
 from .crew import Pilot
+from .weapons import PhotonBeam, PhotonCannon
 from .util import dice
 
-
 import random
+
+
+def generate_fleet(size=10):
+    pass
 
 
 def generate_ship(shiptype):
     ship = shiptype()
     ship.register_crewmember(generate_pilot(), 'pilot')
+    ship.team = random.randint(1, 3)
+    ship.register_weapon(PhotonBeam())
+    ship.register_weapon(PhotonCannon())
     return ship
 
 

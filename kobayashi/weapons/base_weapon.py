@@ -1,19 +1,12 @@
 import abc
+from ..util import dice
 
 
 class Weapon(metaclass=abc.ABCMeta):
-    def __init__(self, weapon_range, weapon_damage):
-        self.weapon_damage = weapon_damage
-        self.weapon_range = weapon_range
+    @abc.abstractproperty
+    def wdamage(self):
+        pass
 
-    @property
-    def damage(self):
-        if callable(self.weapon_damage):
-            return self.weapon_damage()
-        return self.weapon_damage
-
-    @property
+    @abc.abstractproperty
     def wrange(self):
-        if callable(self.weapon_range):
-            return self.weapon_range()
-        return self.weapon_range
+        pass

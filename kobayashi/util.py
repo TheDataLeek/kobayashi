@@ -7,6 +7,13 @@ def distance(coord1, coord2):
 
 
 def dice(numdice, dicesides, droplowcount=0):
-    return sorted([random.randint(1, dicesides)
-                   for _ in range(numdice)],
-                  key=lambda d: -d)[:-droplowcount]
+    rolls = sorted([random.randint(1, dicesides)
+                       for _ in range(numdice)],
+                      key=lambda d: -d)
+    if droplowcount != 0:
+        return sum(rolls[:-droplowcount])
+    return sum(rolls)
+
+
+class FullCrewException(Exception):
+    pass
