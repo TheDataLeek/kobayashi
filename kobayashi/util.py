@@ -15,5 +15,10 @@ def dice(numdice, dicesides, droplowcount=0):
     return sum(rolls)
 
 
-class FullCrewException(Exception):
-    pass
+# Exceptions
+
+class FullCrewException(Exception): pass
+
+class NoTargetsAvailable(Exception): pass
+
+class NotEnoughSpeed(Exception): pass

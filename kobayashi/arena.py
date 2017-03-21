@@ -11,6 +11,7 @@ class Arena(object):
         self.m = m
         self.n = n
         self.layers = layers
+        self.arena = {}
         self.arena = np.empty((m, n, layers), dtype=object)
         self.ships = []
         self.framenum = 0

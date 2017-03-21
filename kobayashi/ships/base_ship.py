@@ -1,4 +1,4 @@
-from ..util import distance, FullCrewException
+from ..util import distance, FullCrewException, NoTargetsAvailable, NotEnoughSpeed
 
 import abc
 import random
@@ -29,32 +29,35 @@ class Ship(metaclass=abc.ABCMeta):
     def attack(self, arena):
         close_ships, num_within_range = self.list_close_ships(arena)
         if num_within_range == 0:
-            return False
+            raise NoTargetsAvailable()
         for s, d, w, inrange, threat in close_ships:
             if inrange and s.team != self.team:
-                # fire at ship
-                old = s.hp
                 s.hp -= w.wdamage
-                print(f'{s.team} ship damaged by {old - s.hp}')
                 if s.hp <= 0:
-                    print(f'{s.team} ship destroyed')
                     s.remove(arena)
-                return True
+
+    def move_towards(self, arena, coords):
+        if distance(self.coords, coords) <= self.speed:
+            self.move(arena, new_loc=coords)
+        else:
+            # TODO: move speed along line
+            pass
 
     def move(self, arena, new_loc=None):
+        # If given directions, try to move there
         if new_loc is not None:
             if distance(self.coords, new_loc) > self.speed:
-                return False
+                raise NotEnoughSpeed(f'{distance(self.coords, new_loc)} > {self.speed}')
             else:
                 arena.arena[self.coords] = None
                 self.coords = new_loc
                 arena.arena[self.coords] = self
-                return True
-
-        arena.arena[self.coords] = None
-        if self.AI_level == 0:
-            self.coords = self.random_jitter(arena.arena.shape)
-        arena.arena[self.coords] = self
+        # Otherwise use AI
+        else:
+            arena.arena[self.coords] = None
+            if self.AI_level == 0:
+                self.coords = self.random_jitter(arena.arena.shape)
+            arena.arena[self.coords] = self
 
     def random_jitter(self, shape):
         return tuple(min(max(_ + random.randint(-1, 1), 0), shape[i] - 1)
