@@ -1,4 +1,4 @@
-from ..util import distance, FullCrewException, NoTargetsAvailable, NotEnoughSpeed
+from ..util import *
 
 import abc
 import random
@@ -21,7 +21,19 @@ class Ship(metaclass=abc.ABCMeta):
         self.max_power = 5
         self.max_mass = 2
         self.max_hardpoints = 1
+        # Weapon to ship compatibility properties
+        # Ship class is defined as:
+        # 0 - Fighter
+        # 1 - Frigate
+        # 2 - Cruiser
+        # 3 - Capital
+        # 4 - Super Capital
+        # 5 - Bruxelles
         self.ship_class = 0
+        self.subordinates = []
+        self.command_ship = None
+
+        # overwrite with anything passed
         self.__dict__ = {**self.__dict__, **kwargs}
 
     def __int__(self):
@@ -63,11 +75,15 @@ class Ship(metaclass=abc.ABCMeta):
                 self.coords = new_loc
                 arena[self.coords] = self
         # Otherwise use AI
-        else:
+        # TODO different level of AI
+        elif self.command_ship is not None:
             arena[self.coords] = None
             if self.AI_level == 0:
                 self.coords = self.random_jitter()
             arena[self.coords] = self
+
+        for ship in self.subordinates:
+            ship.move()
 
     def random_jitter(self):
         return tuple(_ + random.randint(-1, 1)
@@ -92,14 +108,34 @@ class Ship(metaclass=abc.ABCMeta):
         if role in self.crew:
             self.crew[role] = person
         else:
-            if len(self.crew) < self.capacity:
+            if len(self.crew) <= self.crew_max:
                 self.crew[role] = person
             else:
                 raise FullCrewException(f'Capacity is at {self.capacity}.')
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
+    @property
+    def current_free_mass(self):
+        return self.max_mass - sum(w.free_mass for w in self.weapons)
 
-    @abc.abstractproperty
-    def capacity(self):
-        pass
+    @property
+    def current_free_power(self):
+        return self.max_power - sum(w.power for w in self.weapons)
+
+    @property
+    def current_free_hardpoints(self):
+        return self.max_hardpoints - sum(w.hardpoints for w in self.weapons)
+
+    def register_weapon(self, weapon):
+        new_mass = self.current_free_mass + weapon.free_mass
+        new_power = self.current_free_power + weapon.power
+        new_hardpoints = self.current_free_hardpoints + weapon.hardpoints
+        if ((new_mass <= self.max_mass) and
+            (new_power <= self.max_power) and
+            (new_hardpoints <= self.max_hardpoints)):
+            self.weapons.append(weapon)
+        else:
+            raise NotEnoughSpacePowerMass(
+                    'Refusing to add weapon '
+                    f'({new_mass}/{self.max_mass})m '
+                    f'({new_power}/{self.max_power})p '
+                    f'({new_hardpoints}/{self.max_hardpoints})h')

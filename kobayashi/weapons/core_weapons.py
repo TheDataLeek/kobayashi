@@ -3,13 +3,13 @@ from ..util import dice
 
 
 class MultifocalLaser(Weapon):
-
     armor_pen = 20
     power = 5
 
     @property
     def wdamage(self):
         return dice(1, 4)
+
 
 class ReaperBattery(Weapon):
 
@@ -19,6 +19,7 @@ class ReaperBattery(Weapon):
     @property
     def wdamage(self):
         return dice(3, 4)
+
 
 class FractalImpactCharges(Weapon):
 
@@ -30,6 +31,7 @@ class FractalImpactCharges(Weapon):
     def wdamage(self):
         return dice(2, 6)
 
+
 class PolyspectralMESBeam(Weapon):
 
     armor_pen = 25
@@ -40,6 +42,7 @@ class PolyspectralMESBeam(Weapon):
     def wdamage(self):
         return dice(2, 4)
 
+
 class Sandthrower(Weapon):
 
     flak = True
@@ -48,6 +51,7 @@ class Sandthrower(Weapon):
     @property
     def wdamage(self):
         return dice(2, 4)
+
 
 class FlakEmitterBattery (Weapon):
 
@@ -61,6 +65,7 @@ class FlakEmitterBattery (Weapon):
     def wdamage(self):
         return dice(2, 6)
 
+
 class TorpedoLauncher (Weapon):
 
      armor_pen = 20
@@ -72,6 +77,7 @@ class TorpedoLauncher (Weapon):
      @property
      def wdamage(self):
          return dice(3, 8)
+
 
 class ChargedParticleCaster (Weapon):
 
@@ -85,6 +91,7 @@ class ChargedParticleCaster (Weapon):
     def wdamage(self):
         return dice(3, 6)
 
+
 class PlasmaBeam (Weapon):
 
     armor_pen = 10
@@ -96,6 +103,7 @@ class PlasmaBeam (Weapon):
     @property
     def wdamage(self):
         return dice(3, 6)
+
 
 class MagSpikeArray (Weapon):
 
@@ -111,6 +119,7 @@ class MagSpikeArray (Weapon):
     def wdamage(self):
         return dice(2, 6) + 2
 
+
 class SpinalBeamCannon (Weapon):
 
     armor_pen = 15
@@ -125,6 +134,7 @@ class SpinalBeamCannon (Weapon):
     def wdamage(self):
         return dice(3, 10)
 
+
 class SmartCloud (Weapon):
 
     cloud = True
@@ -138,6 +148,7 @@ class SmartCloud (Weapon):
     def wdamage(self):
         return dice(3, 10)
 
+
 class Gravcannon (Weapon):
 
     armor_pen = 20
@@ -149,6 +160,7 @@ class Gravcannon (Weapon):
     @property
     def wdamage(self):
         return dice(4, 6)
+
 
 class SpikeInversionProjector (Weapon):
 
@@ -162,6 +174,7 @@ class SpikeInversionProjector (Weapon):
     @property
     def wdamage(self):
         return dice(3, 8)
+
 
 class VortexTunnelInductor (Weapon):
 
@@ -177,6 +190,7 @@ class VortexTunnelInductor (Weapon):
     def wdamage(self):
         return dice(3, 20)
 
+
 class MassCannon (Weapon):
 
     armor_pen = 20
@@ -191,6 +205,7 @@ class MassCannon (Weapon):
     def wdamage(self):
         return dice(2, 20)
 
+
 class LightningChargeMantle (Weapon):
 
     armor_pen = 5
@@ -203,6 +218,7 @@ class LightningChargeMantle (Weapon):
     @property
     def wdamage(self):
         return dice(1, 20)
+
 
 class SingularityGun (Weapon):
 

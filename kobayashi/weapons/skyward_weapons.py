@@ -58,7 +58,7 @@ class UmbrellaBarrageSystem (Weapon):
     notes = ('This weapon is designed to hit large numbers of small ships - such as Cargo Lighters or Drop Pods. A '
              'single attack roll is made against each craft. When fired against mass drops, like those from a'
              'Thunderhead grav pod system, a single shot will destroy 1d4 x 15% of all of the pods or lighters '
-             'attempting to land that round.'
+             'attempting to land that round.')
 
     @property
     def wdamage(self):

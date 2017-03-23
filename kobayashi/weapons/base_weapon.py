@@ -3,8 +3,7 @@ import math
 from ..util import dice
 
 
-class Weapon(metaclass=abc.ABCMeta)
-
+class Weapon(metaclass=abc.ABCMeta):
     # Weapon combat properties
     ammo = math.inf
     armor_pen = 0
@@ -29,8 +28,4 @@ class Weapon(metaclass=abc.ABCMeta)
 
     @abc.abstractproperty
     def wdamage(self):
-        pass
-
-    @abc.abstractproperty
-    def wrange(self):
         pass

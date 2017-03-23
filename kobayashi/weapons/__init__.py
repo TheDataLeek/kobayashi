@@ -1,2 +1,3 @@
 from .base_weapon import Weapon
-from .photon import *
+from .core_weapons import *
+from .skyward_weapons import *

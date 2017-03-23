@@ -2,7 +2,6 @@ from .base_ship import Ship
 
 
 class NavalCourier(Ship):
-
     speed = 5
     armor = 5
     hp = 20
@@ -14,15 +13,8 @@ class NavalCourier(Ship):
     max_hardpoints = 0
     ship_class = 1
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
 
 class TroopTransport(Ship):
-
     speed = 0
     armor = 10
     hp = 50
@@ -34,15 +26,8 @@ class TroopTransport(Ship):
     max_hardpoints = 3
     ship_class = 2
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
 
 class LogisticsShip(Ship):
-
     speed = 1
     armor = 15
     hp = 60
@@ -54,9 +39,3 @@ class LogisticsShip(Ship):
     max_hardpoints = 3
     ship_class = 2
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2

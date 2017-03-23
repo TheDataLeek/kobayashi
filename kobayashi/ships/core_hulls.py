@@ -2,7 +2,6 @@ from .base_ship import Ship
 
 
 class Fighter(Ship):
-
     speed = 5
     armor = 5
     hp = 8
@@ -13,14 +12,6 @@ class Fighter(Ship):
     max_mass = 2
     max_hardpoints = 1
     ship_class = 0
-
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-
-    @property
-    def capacity(self):
-        return 2
 
 
 class Shuttle(Ship):
@@ -35,13 +26,6 @@ class Shuttle(Ship):
     max_hardpoints = 1
     ship_class = 0
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
-
 
 class FreeMerchant(Ship):
     speed = 3
@@ -54,13 +38,6 @@ class FreeMerchant(Ship):
     max_mass = 15
     max_hardpoints = 2
     ship_class = 1
-
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
 
 
 class PatrolBoat(Ship):
@@ -75,13 +52,6 @@ class PatrolBoat(Ship):
     max_hardpoints = 4
     ship_class = 1
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
-
 
 class Frigate(Ship):
     speed = 2
@@ -94,13 +64,6 @@ class Frigate(Ship):
     max_mass = 15
     max_hardpoints = 6
     ship_class = 1
-
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
 
 
 class BulkFreighter(Ship):
@@ -115,13 +78,6 @@ class BulkFreighter(Ship):
     max_hardpoints = 2
     ship_class = 2
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
-
 
 class Cruiser(Ship):
     speed = 1
@@ -134,13 +90,6 @@ class Cruiser(Ship):
     max_mass = 30
     max_hardpoints = 10
     ship_class = 2
-
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
 
 
 class Battleship(Ship):
@@ -155,13 +104,6 @@ class Battleship(Ship):
     max_hardpoints = 15
     ship_class = 3
 
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
-
 
 class Carrier(Ship):
     speed = 0
@@ -174,10 +116,3 @@ class Carrier(Ship):
     max_mass = 100
     max_hardpoints = 4
     ship_class = 3
-
-    def register_weapon(self, weapon):
-        self.weapons.append(weapon)
-
-    @property
-    def capacity(self):
-        return 2
