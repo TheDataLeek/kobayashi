@@ -1,2 +1,4 @@
 from .base_ship import Ship
-from .fighter import Fighter
+from .core_hulls import *
+from .skyward_hulls import *
+from .core_weapons import *
