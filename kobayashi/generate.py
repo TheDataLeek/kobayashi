@@ -11,10 +11,8 @@ def generate_fleet(size=10):
 
 def generate_ship(shiptype):
     ship = shiptype()
-    print(ship.__dict__)
     ship.register_crewmember(generate_pilot(), 'pilot')
     ship.team = random.randint(1, 3)
-    print(MultifocalLaser().__dict__)
     ship.register_weapon(MultifocalLaser())
     return ship
 

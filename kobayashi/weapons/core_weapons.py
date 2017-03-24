@@ -3,8 +3,11 @@ from ..util import dice
 
 
 class MultifocalLaser(Weapon):
-    armor_pen = 20
-    power = 5
+    def __init__(self):
+        super().__init__(
+            armor_pen=20,
+            power=5
+        )
 
     @property
     def wdamage(self):
@@ -12,9 +15,11 @@ class MultifocalLaser(Weapon):
 
 
 class ReaperBattery(Weapon):
-
-    clumsy = True
-    power = 4
+    def __init__(self):
+        super().__init__(
+            clumsy = True,
+            power = 4
+        )
 
     @property
     def wdamage(self):
@@ -22,10 +27,12 @@ class ReaperBattery(Weapon):
 
 
 class FractalImpactCharges(Weapon):
-
-    armor_pen = 15
-    ammo = 4
-    power = 5
+    def __init__(self):
+        super().__init__(
+            armor_pen = 15,
+            ammo = 4,
+            power = 5,
+        )
 
     @property
     def wdamage(self):
@@ -33,10 +40,12 @@ class FractalImpactCharges(Weapon):
 
 
 class PolyspectralMESBeam(Weapon):
-
-    armor_pen = 25
-    weap_phase = 1
-    power = 5
+    def __init__(self):
+        super().__init__(
+            armor_pen = 25,
+            weap_phase = 1,
+            power = 5
+        )
 
     @property
     def wdamage(self):
@@ -44,7 +53,6 @@ class PolyspectralMESBeam(Weapon):
 
 
 class Sandthrower(Weapon):
-
     flak = True
     power = 3
 
