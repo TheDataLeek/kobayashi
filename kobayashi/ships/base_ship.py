@@ -62,8 +62,10 @@ class Ship(metaclass=abc.ABCMeta):
         if distance(self.coords, coords) <= self.speed:
             self.move(arena, new_loc=coords)
         else:
-            # TODO: move speed along line
-            pass
+            dist = distance(self.coord, coords)
+            directionVector = [(self.coord[i]-coords[i])/dist for i in range(len(coords))]
+            travelVector = [math.floor(i*self.speed) for i in directionVector]
+            self.move(arena, new_loc=travelVector)
 
     def move(self, arena, new_loc=None):
         # If given directions, try to move there
