@@ -1,14 +1,17 @@
-from ..util import *
+from ..util import distance, dice
+from ..exceptions import *
+from .ship_ai import Level1
 
 import abc
 import random
+import math
 
 
 class Ship(metaclass=abc.ABCMeta):
     def __init__(self, **kwargs):
         self.destroyed = False
         self.team = 1
-        self.AI_level = 0
+        self.AI = None
         self.coords = (0, 0, 0)
         self.weapons = []
         self.speed = 0
@@ -52,20 +55,20 @@ class Ship(metaclass=abc.ABCMeta):
         close_ships, num_within_range = self.list_close_ships(arena)
         if num_within_range == 0:
             raise NoTargetsAvailable
-        for s, d, w, inrange, threat in close_ships:
-            if inrange and s.team != self.team:
-                s.hp -= w.wdamage
-                if s.hp <= 0:
-                    s.remove(arena)
+        if len(close_ships) > 0:
+            ship, distance, weapon, threat = close_ships[0]
+            ship.hp -= weapon.wdamage
+            if ship.hp <= 0:
+                ship.remove(arena)
 
     def move_towards(self, arena, coords):
         if distance(self.coords, coords) <= self.speed:
-            self.move(arena, new_loc=coords)
+            self._move(arena, coords)
         else:
             dist = distance(self.coord, coords)
             directionVector = [(self.coord[i]-coords[i])/dist for i in range(len(coords))]
             travelVector = [math.floor(i*self.speed) for i in directionVector]
-            self.move(arena, new_loc=travelVector)
+            self._move(arena, travelVector)
 
     def move(self, arena, new_loc=None):
         # If given directions, try to move there
@@ -85,14 +88,11 @@ class Ship(metaclass=abc.ABCMeta):
                         for pos in range(0,3):
                             collisionFlag = 1
                             if pos == 0:
-                                x = (1,0,0)
-                                x = (reductionFactor * i for i in x)
+                                x = tuple(reductionFactor * i for i in (1,0,0))
                             elif pos == 1:
-                                x = (0,1,0)
-                                x = (reductionFactor*i for i in x)
+                                x = tuple(reductionFactor*i for i in (0,1,0))
                             elif pos == 2:
-                                x = (0,0,1)
-                                x = (reductionFactor*i for i in x)
+                                x = tuple(reductionFactor*i for i in (0,0,1))
                             tempLoc = tuple(map(operator.sub, new_loc, x))
                             for coord in listofCoords:
                                 print("Entering comparison loop")
@@ -108,16 +108,27 @@ class Ship(metaclass=abc.ABCMeta):
             arena[self.coords] = None
             self.coords = new_loc
             arena[self.coords] = self
+            if distance(self.coords, new_loc) > self.speed:
+                raise NotEnoughSpeed(f'{distance(self.coords, new_loc)} > {self.speed}')
+            else:
+                self._move(arena, new_loc)
         # Otherwise use AI
         # TODO different level of AI
         elif self.command_ship is not None:
-            arena[self.coords] = None
-            if self.AI_level == 0:
-                self.coords = self.random_jitter()
-            arena[self.coords] = self
+            if self.AI:
+                self._move(arena, self.AI.new_pos(arena, self))
+            else:
+                pass
 
         for ship in self.subordinates:
             ship.move()
+
+    def _move(self, arena, loc):
+        if arena[loc] is not None:
+            raise ArenaCoordinateOccupied(f'{loc} occupied')
+        arena[self.coords] = None
+        self.coords = loc
+        arena[self.coords] = self
 
     def random_jitter(self):
         return tuple(_ + random.randint(-1, 1)
@@ -129,14 +140,22 @@ class Ship(metaclass=abc.ABCMeta):
         """
         ships = []
         for coord, ship in arena.arena.items():
-            d = distance(self.coords, ship.coords)
-            for w in self.weapons:
-                ships.append((ship, d, w, d < w.wrange, self.threat_level(ship)))
-        return sorted(ships, key=lambda tup: -tup[-1]), sum([t[3] for t in ships])
+            if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
+                    (ship.team != self.team)):
+                d = distance(self.coords, ship.coords)
+                for w in self.weapons:
+                    if d < w.wrange:
+                        ships.append((ship, d, w, self.threat_level(ship)))
+        ships = sorted(ships, key=lambda tup: (ship.ship_class, -tup[-1]))
+        num_within_range = len(ships)
+        return ships, num_within_range
 
     def tick(self, arena):
         self.move(arena)
-        self.attack(arena)
+        try:
+            self.attack(arena)
+        except NoTargetsAvailable:
+            pass
 
     def register_crewmember(self, person, role):
         if role in self.crew:

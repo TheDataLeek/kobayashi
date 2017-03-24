@@ -17,15 +17,3 @@ def dice(numdice, dicesides, droplowcount=0):
 
 def parameterize_towards_point(coords):
     pass
-
-
-
-# Exceptions
-
-class FullCrewException(Exception): pass
-
-class NoTargetsAvailable(Exception): pass
-
-class NotEnoughSpeed(Exception): pass
-
-class NotEnoughSpacePowerMass(Exception): pass
