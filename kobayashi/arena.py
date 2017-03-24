@@ -16,7 +16,7 @@ class Arena(object):
         return str(self.arena)
 
     def __getitem__(self, key):
-        return self.arena[key]
+        return self.arena.get(key)
 
     def __setitem__(self, key, value):
         if value is None:

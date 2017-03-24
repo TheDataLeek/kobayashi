@@ -19,6 +19,11 @@ def main():
         # arena.show()
 
 
+    from player_fleet import phoenix
+
+    phoenix()
+
+
 
 
 

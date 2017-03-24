@@ -1,6 +1,6 @@
 from kobayashi.ships import Cruiser
-from kobayashi.ships import
 from kobayashi.weapons import *
+
 
 def phoenix():
     ship = Cruiser()

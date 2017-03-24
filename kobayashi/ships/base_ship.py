@@ -126,12 +126,12 @@ class Ship(metaclass=abc.ABCMeta):
         return self.max_hardpoints - sum(w.hardpoints for w in self.weapons)
 
     def register_weapon(self, weapon):
-        new_mass = self.current_free_mass + weapon.free_mass
-        new_power = self.current_free_power + weapon.power
-        new_hardpoints = self.current_free_hardpoints + weapon.hardpoints
-        if ((new_mass <= self.max_mass) and
-            (new_power <= self.max_power) and
-            (new_hardpoints <= self.max_hardpoints)):
+        new_mass = self.current_free_mass - weapon.free_mass
+        new_power = self.current_free_power - weapon.power
+        new_hardpoints = self.current_free_hardpoints - weapon.hardpoints
+        if ((new_mass >= 0) and
+            (new_power >= 0) and
+            (new_hardpoints >= 0)):
             self.weapons.append(weapon)
         else:
             raise NotEnoughSpacePowerMass(
