@@ -30,6 +30,12 @@ class Arena(object):
         else:
             self.arena[key] = value
 
+    def ship_by_name(self, key):
+        for ship in self.ships:
+            if ship.name == key:
+                return ship
+        return None
+
     def register_ship(self, coords, shipinstance):
         shipinstance.coords = coords
         self.arena[coords] = shipinstance

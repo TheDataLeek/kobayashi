@@ -1,6 +1,19 @@
 import abc
 import math
 from ..util import dice
+from ..exceptions import OutOfAmmo
+
+import wrapt
+
+
+@wrapt.decorator
+def check_ammo(wrapped, instance, args, kwargs):
+    cls = args[0]
+    if cls.ammo > 0:
+        cls.ammo -= 1
+        return wrapped(*args, **kwargs)
+    else:
+        raise OutOfAmmo
 
 
 class Weapon(metaclass=abc.ABCMeta):

@@ -48,6 +48,9 @@ class Ship(metaclass=abc.ABCMeta):
     def __int__(self):
         return self.team
 
+    def __str__(self):
+        return str(self.__dict__)
+
     @property
     def crew_size(self):
         return len(self.gunners) + (1 if self.pilot is not None else 0)
@@ -67,15 +70,31 @@ class Ship(metaclass=abc.ABCMeta):
             return 0
         return 1 / distance(self.coords, ship.coords)
 
+    @property
+    def best_gunner(self):
+        best_gunners = sorted(self.gunners, key=lambda g: -g.skillmod)
+        if len(best_gunners) == 0:
+            return None
+        return best_gunners[0]
+
     def attack(self, arena):
         close_ships, num_within_range = self.list_close_ships(arena)
         if num_within_range == 0:
             raise NoTargetsAvailable(f'{self.name} has no targets')
         if len(close_ships) > 0:
             ship, distance, weapon, threat = close_ships[0]
-            ship.hp -= weapon.wdamage
-            if ship.hp <= 0:
-                ship.remove(arena)
+            # Take into account armor (strict DR)
+            gunner = self.best_gunner
+            if gunner is None:
+                return
+            if dice(1, 20) + gunner.skillmod > 20:
+                DR_dmg = min(0, ship.armor - weapon.wdamage)
+                print(f'{self.name} attacked {ship.name} for {-DR_dmg}')
+                if DR_dmg < 0:
+                    ship.hp += weapon.wdamage
+                    if ship.hp <= 0:
+                        print(f'{ship.name} was destroyed')
+                        ship.remove(arena)
 
     def move_towards(self, arena, coords):
         if distance(self.coords, coords) <= self.speed:
@@ -123,6 +142,7 @@ class Ship(metaclass=abc.ABCMeta):
                     i += 1
         if arena[loc] is not None:
             raise ArenaCoordinateOccupied(f'Refusing to move {self.name}. {loc} occupied')
+        print(f'{self.name} moved {self.coords} -> {loc}')
         arena[self.coords] = None
         self.coords = loc
         arena[self.coords] = self
