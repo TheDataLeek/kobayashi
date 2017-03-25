@@ -14,6 +14,7 @@ def generate_ship(shiptype):
     ship.register_crewmember(generate_pilot(), 'pilot')
     ship.team = random.randint(1, 3)
     ship.register_weapon(MultifocalLaser())
+    ship.register_AI(1)
     return ship
 
 

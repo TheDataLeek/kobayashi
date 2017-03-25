@@ -7,22 +7,41 @@ import kobayashi as kob
 
 def main():
     arena = kob.arena.Arena()
-    arena.register_ship((0, 2, 1), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((10, 20, 2), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((13, 21, 2), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((18, 22, 2), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((13, 23, 2), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((15, 15, 0), kob.generate.generate_ship(kob.ships.Fighter))
+    arena.register_ship((0, 0, 0), kob.generate.generate_ship(kob.ships.Fighter))
+    arena.register_ship((100, 100, 100), kob.generate.generate_ship(kob.ships.Fighter))
 
-    for _ in range(20):
-        arena.tick()
-        # arena.show()
+    commands = {
+        'tick': arena.tick,
+        'savetick': arena.show,
+        'list': arena.list_ships,
+    }
 
+    while True:
+        try:
+            command = input('$--> ')
 
-    from player_fleet import phoenix
+            if command.lower() == 'exit':
+                break
+            elif command.lower() in ['help', '?']:
+                print(f'arena -> {type(arena)}')
+                for k, v in commands.items():
+                    print(f'{k} -> {v}')
+            else:
+                try:
+                    commands[command]()
+                except KeyError:
+                    try:
+                        try:
+                            results = eval(command)
+                            if results is not None:
+                                print(results)
+                        except SyntaxError:
+                            print('Syntax Error')
+                    except NameError:
+                        print("Command not found")
 
-    phoenix()
-
+        except (EOFError, KeyboardInterrupt) as e:
+            break
 
 
 

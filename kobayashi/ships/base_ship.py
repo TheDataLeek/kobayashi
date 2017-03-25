@@ -42,6 +42,12 @@ class Ship(metaclass=abc.ABCMeta):
     def __int__(self):
         return self.team
 
+    def register_AI(self, level):
+        if level == 0:
+            self.AI = None
+        if level == 1:
+            self.AI = Level1(self)
+
     def remove(self, arena):
         arena[self.coords] = None
         self.destroyed = True
@@ -65,10 +71,11 @@ class Ship(metaclass=abc.ABCMeta):
         if distance(self.coords, coords) <= self.speed:
             self._move(arena, coords)
         else:
-            dist = distance(self.coord, coords)
-            directionVector = [(self.coord[i]-coords[i])/dist for i in range(len(coords))]
-            travelVector = [math.floor(i*self.speed) for i in directionVector]
-            self._move(arena, travelVector)
+            d = distance(self.coords, coords)
+            new_loc = tuple(self.coords[i] + int(self.speed *
+                                ((coords[i] - self.coords[i]) / d))
+                            for i in range(len(coords)))
+            self._move(arena, new_loc)
 
     def move(self, arena, new_loc=None):
         # If given directions, try to move there
@@ -78,12 +85,8 @@ class Ship(metaclass=abc.ABCMeta):
             else:
                 self._move(arena, new_loc)
         # Otherwise use AI
-        # TODO different level of AI
-        elif self.command_ship is not None:
-            if self.AI:
-                self._move(arena, self.AI.new_pos(arena, self))
-            else:
-                pass
+        elif self.command_ship is None and self.AI is not None:
+            self.AI.move(arena)
 
         for ship in self.subordinates:
             ship.move()
@@ -99,6 +102,22 @@ class Ship(metaclass=abc.ABCMeta):
         return tuple(_ + random.randint(-1, 1)
                      for i, _ in enumerate(self.coords))
 
+    def within_range(self, ship):
+        for w in self.weapons:
+            if distance(self.coords, ship.coords) <= w.wrange:
+                return True
+        return False
+
+    def list_ships(self, arena):
+        ships = []
+        for coord, ship in arena.arena.items():
+            if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
+                    (ship.team != self.team)):
+                d = distance(self.coords, ship.coords)
+                ships.append((ship, d, self.threat_level(ship)))
+        ships = sorted(ships, key=lambda tup: (tup[0].ship_class, -tup[-1]))
+        return ships
+
     def list_close_ships(self, arena):
         """
         Returns a list of all ships sorted by threat level descending that are within range
@@ -111,7 +130,7 @@ class Ship(metaclass=abc.ABCMeta):
                 for w in self.weapons:
                     if d < w.wrange:
                         ships.append((ship, d, w, self.threat_level(ship)))
-        ships = sorted(ships, key=lambda tup: (ship.ship_class, -tup[-1]))
+        ships = sorted(ships, key=lambda tup: (tup[0].ship_class, -tup[-1]))
         num_within_range = len(ships)
         return ships, num_within_range
 

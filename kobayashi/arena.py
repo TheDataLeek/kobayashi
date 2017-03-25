@@ -16,9 +16,13 @@ class Arena(object):
         return str(self.arena)
 
     def __getitem__(self, key):
+        if isinstance(key, list):
+            key = tuple(key)
         return self.arena.get(key)
 
     def __setitem__(self, key, value):
+        if isinstance(key, list):
+            key = tuple(key)
         if value is None:
             self.arena.pop(key)
         else:
@@ -29,11 +33,19 @@ class Arena(object):
         self.arena[coords] = shipinstance
         self.ships.append(shipinstance)
 
+    def list_ships(self):
+        for ship in self.ships:
+            print(ship.team, ship.coords)
+
     def tick(self):
         self.framenum += 1
         for ship in self.ships:
             if ship.destroyed is False:
                 ship.tick(self)
+
+    def tickn(self, n):
+        for _ in range(n):
+            self.tick()
 
     def show(self):
         fig = plt.figure(figsize=(10, 10))
@@ -49,8 +61,8 @@ class Arena(object):
                 colors.append(ship.team)
         ax.scatter(*np.array(points).T, c=colors)
 
-        ax.set_xlim(-1, 30)
-        ax.set_ylim(-1, 30)
-        ax.set_zlim(0, 30)
+        # ax.set_xlim(-1, 30)
+        # ax.set_ylim(-1, 30)
+        # ax.set_zlim(0, 30)
 
         plt.savefig(f'./img/arena{self.framenum}.png')
