@@ -14,6 +14,7 @@ def generate(arena):
     Singularity Gun * 2 (+7?/+5? to hit/5d20+3, AP 20, Phase 6), Lighting Charge Mantle (+5? to hit/1d20+3, AP 5, Cloud),
     Spike Inversion Projector (+1? to hit/3d8+3, AP 15, Phase 2)
      Augmented Plating, Hardened Polyceramic Overlay, Ablative Hull Compartments
+
     Fleet 2: Roberts
     1x Borg Cube (Lemme do tomorrow)
     3x Hasta-class cruiser
@@ -22,11 +23,13 @@ def generate(arena):
     hit/3d6+3, AP 10)
     Hardened Polyceramic Overlay, Grav Eddy Displacer
     Fittings Spike Drive-5
+
     2x Reproach-class Hunter-Killer frigate
     Hit Points: 45 Crew: 3/60 Speed: 2 Armor: 13 AC: 4
      Torpedo Launchers * 2 (+8 to hit/3d8+3, AP 20, Ammo 4), Plasma Beam (+8 to hit/3d6+3, AP 10)
      Hardened Polyceramic Overlay, Augmented Plating
     Fittings Spike Drive-3
+
     130x Furor-class fighter-Bomber
      Hit Points: 16 Crew: 1/6 Speed: 6 Armor: 8 AC: 3
     Fractal Impact Charge * 2 (+5 to hit/2d6+3, AP 15, Ammo 4)
@@ -44,9 +47,10 @@ def generate(arena):
         ship = Battleship(
             team=1,
             hp=170,
-            armor=23,
+            armor=28,
             AC=-1,
-            allies=[2]
+            allies=[2, 4],
+            speed=3
         )
         ship.register_weapon(SingularityGun())
         ship.register_weapon(SingularityGun())
@@ -61,11 +65,62 @@ def generate(arena):
 
         ships.append(ship)
 
+    # position them
+    position_ships(arena, ships, (10, 10, 0))
+
+    ships = []
+
     # BORG CUBE
-    # TODO
+    """
+    Borg Cube
+    Hitpoints 30 Shields 100 Crew: 100/200 Speed: 1 Armor: 15 AC 0
+    Gravcannon (+4 to hit/4d6+1, AP 20), Spike Inversion Projector x2 (+4 to hit/3d8+1, AP 15, Phase 2), Sunshine Field
+    (+4 to hit/2d6+1, AP 10, Cloud, Phase 2), Umbrella Barrage System (+4 to hit/Special)
+    Armor: Regenerating Shield (10) Adapting Shield(Hits by same weapon lose 1 damage), Hardened Polyceramic Overlay
+    """
+    ship = Battleship(
+        hp=130,
+        shields=100,
+        speed=1,
+        armor=23,
+        AC=0,
+        team=2,
+        allies=[1, 4]
+    )
+
+    ship.register_pilot(generate_pilot(3))
+    for _ in range(10):
+        ship.register_gunner(generate_gunner(3))
+    ship.register_weapon(SunshineField(
+        to_hit_mod=4,
+        extra_dmg=1,
+        armor_pen=10,
+        cloud=True,
+        phase=2
+    ))
+    ship.register_weapon(Gravcannon(
+        to_hit_mod=4,
+        extra_dmg=1,
+        armor_pen=20
+    ))
+    ship.register_weapon(SpikeInversionProjector(
+        to_hit_mod=4,
+        extra_dmg=1,
+        armor_pen=15,
+        phase=2
+    ))
+    ship.register_weapon(SpikeInversionProjector(
+        to_hit_mod=4,
+        extra_dmg=1,
+        armor_pen=15,
+        phase=2
+    ))
+
+
+    ships.append(ship)
 
     # Borg Cruisers
-    for i in range(3):
+    for i in range(4):
         ship = Cruiser(
             hp=70,
             crew_max=200,
@@ -73,8 +128,8 @@ def generate(arena):
             armor=18,
             AC=6,
             team=2,
-            allies=[1],
-            spike=3
+            allies=[1, 4],
+            spike=3,
         )
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
         for _ in range(10):
@@ -84,6 +139,50 @@ def generate(arena):
         ship.register_weapon(Gravcannon())
         ship.register_weapon(SmartCloud())
         ship.register_weapon(PlasmaBeam())
+
+        ships.append(ship)
+
+    # Borg Frigates
+    """
+    2x Reproach-class Hunter-Killer frigate
+    Hit Points: 45 Crew: 3/60 Speed: 2 Armor: 13 AC: 4
+     Torpedo Launchers * 2 (+8 to hit/3d8+3, AP 20, Ammo 4), Plasma Beam (+8 to hit/3d6+3, AP 10)
+     Hardened Polyceramic Overlay, Augmented Plating
+    Fittings Spike Drive-3
+    """
+    for i in range(2):
+        ship = Frigate(
+            team=2,
+            allies=[1, 4],
+            hp=45,
+            speed=2,
+            armor=18,
+            AC=4,
+            spike=3,
+            max_power=40
+        )
+        ship.register_pilot(generate_pilot(3))
+        for _ in range(10):
+            ship.register_gunner(generate_gunner(3))
+        ship.register_weapon(PlasmaBeam(
+            to_hit_mod=8,
+            extra_dmg=3,
+            armor_pen=10
+        ))
+        ship.register_weapon(TorpedoLauncher(
+            to_hit_mod=8,
+            extra_dmg=3,
+            armor_pen=20,
+            ammo=4
+        ))
+        ship.register_weapon(TorpedoLauncher(
+            to_hit_mod=8,
+            extra_dmg=3,
+            armor_pen=20,
+            ammo=4
+        ))
+        ships.append(ship)
+
 
     # Borg fighters
     for i in range(130):
@@ -114,7 +213,7 @@ def generate(arena):
         AC=-3,
         spike=6,
         team=2,
-        allies=[1],
+        allies=[1, 4],
         max_power=15,
         max_hardpoints=10,
         max_mass=10
@@ -127,6 +226,10 @@ def generate(arena):
     ship.register_weapon(FractalImpactCharges())
 
     ships.append(ship)
+
+    position_ships(arena, ships, (0, 0, 0))
+
+    ships = []
 
     """
     Fleet 4: Neo Mandate
@@ -153,6 +256,5 @@ def generate(arena):
     """
 
 
-    # position them
-    position_ships(arena, ships, (0, 0, 25))
 
+    position_ships(arena, ships, (20, 20, 0))

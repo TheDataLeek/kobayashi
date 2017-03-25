@@ -68,4 +68,4 @@ def generate(arena):
         ship.register_AI(1)
         ships.append(ship)
 
-    kob.generate.position_ships(arena, ships, (0, 0, 0))
+    kob.generate.position_ships(arena, ships, (10, 10, 100))

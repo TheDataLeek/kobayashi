@@ -47,6 +47,8 @@ class Ship(metaclass=abc.ABCMeta):
         self.phase = 0
         self.allies = []
         self.ticked = False
+        self.shields = 0
+        self.max_hp = self.shields + self.hp
 
         self.gunners_used = []
 
@@ -89,9 +91,14 @@ class Ship(metaclass=abc.ABCMeta):
         for weapon in self.weapons:
             if weapon.ammo > 0:   # only attack if we have ammo left
                 close_ships = self.list_ships(arena, d=weapon.wrange)
-                for ship, d, t in close_ships:
-                    self.attack_ship(weapon, ship, arena)
-                    break
+                if weapon.cloud:
+                    for ship, d, t in close_ships:
+                        if ship.ship_class == 0:
+                            self.attack_ship(weapon, ship, arena)
+                else:
+                    for ship, d, t in close_ships:
+                        self.attack_ship(weapon, ship, arena)
+                        break
 
     def attack_ship(self, weapon, ship, arena):
         gunner = self.best_gunner
@@ -141,6 +148,9 @@ class Ship(metaclass=abc.ABCMeta):
 
     def _move(self, arena, loc):
         """ Not guaranteed to move full speed!! """
+        if self.hp < self.max_hp and self.shields > 0:
+            health = min(self.max_hp, min(self.shields + self.hp, self.hp + 10))
+            self.hp = health
         if loc in arena.arena:  # check for collision
             pqueue = []
             visited = [loc]

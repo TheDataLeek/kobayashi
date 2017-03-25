@@ -99,6 +99,8 @@ class Arena(object):
         # ax.set_ylim(-1, 30)
         # ax.set_zlim(0, 30)
 
+        plt.axis('off')
+
         if save:
             plt.savefig(f'./img/arena{self.framenum}.png')
         else:

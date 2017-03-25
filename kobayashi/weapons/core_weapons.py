@@ -40,7 +40,7 @@ class FractalImpactCharges(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(2, 6) + 3
+        return dice(2, 6) + self.extra_dmg
 
 
 class PolyspectralMESBeam(Weapon):
@@ -133,7 +133,7 @@ class PlasmaBeam(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 6) + 3
+        return dice(3, 6) + self.extra_dmg
 
 
 class MagSpikeArray(Weapon):
@@ -151,7 +151,7 @@ class MagSpikeArray(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(2, 6) + 2
+        return dice(2, 6) + self.extra_dmg
 
 
 class SpinalBeamCannon(Weapon):
@@ -187,7 +187,7 @@ class SmartCloud(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 10) + 3
+        return dice(3, 10) + self.extra_dmg
 
 
 class Gravcannon(Weapon):
@@ -204,7 +204,7 @@ class Gravcannon(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(4, 6) + 3
+        return dice(4, 6) + self.extra_dmg
 
 
 class SpikeInversionProjector(Weapon):
@@ -222,7 +222,7 @@ class SpikeInversionProjector(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 8) + 3
+        return dice(3, 8) + self.extra_dmg
 
 
 class VortexTunnelInductor(Weapon):
@@ -276,7 +276,7 @@ class LightningChargeMantle(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(1, 20) + 3
+        return dice(1, 20) + self.extra_dmg
 
 
 class SingularityGun(Weapon):
@@ -294,4 +294,4 @@ class SingularityGun(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(5, 20) + 3
+        return dice(5, 20) + self.extra_dmg

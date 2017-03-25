@@ -43,6 +43,8 @@ class Weapon(metaclass=abc.ABCMeta):
 
         self.to_hit_mod = 0
 
+        self.extra_dmg = 0
+
         self.__dict__ = {**self.__dict__, **kwargs}
 
     @abc.abstractproperty
