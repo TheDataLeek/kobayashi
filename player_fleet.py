@@ -61,6 +61,7 @@ def generate(arena):
         for i in range(10):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
+        # ship.player_ship = True
         ship.register_AI(1)
 
         ships.append(ship)
@@ -116,6 +117,7 @@ def generate(arena):
         phase=2
     ))
 
+    ship.register_AI(1)
 
     ships.append(ship)
 
@@ -139,6 +141,8 @@ def generate(arena):
         ship.register_weapon(Gravcannon())
         ship.register_weapon(SmartCloud())
         ship.register_weapon(PlasmaBeam())
+
+        ship.register_AI(1)
 
         ships.append(ship)
 
@@ -181,6 +185,9 @@ def generate(arena):
             armor_pen=20,
             ammo=4
         ))
+
+        ship.register_AI(1)
+
         ships.append(ship)
 
 
@@ -224,6 +231,8 @@ def generate(arena):
     ship.register_weapon(FractalImpactCharges())
     ship.register_weapon(FractalImpactCharges())
     ship.register_weapon(FractalImpactCharges())
+
+    ship.register_AI(1)
 
     ships.append(ship)
 
