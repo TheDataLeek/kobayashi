@@ -8,6 +8,7 @@ class MultifocalLaser(Weapon):
             armor_pen=20,
             power=5
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -21,6 +22,7 @@ class ReaperBattery(Weapon):
             clumsy=True,
             power=4
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -36,6 +38,7 @@ class FractalImpactCharges(Weapon):
             power=5,
             to_hit_mod=11
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -50,6 +53,7 @@ class PolyspectralMESBeam(Weapon):
             weap_phase=1,
             power=5
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -63,6 +67,7 @@ class Sandthrower(Weapon):
             flak=True,
             power=3
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -79,6 +84,7 @@ class FlakEmitterBattery(Weapon):
             free_mass=3,
             min_class=1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -95,6 +101,7 @@ class TorpedoLauncher(Weapon):
             free_mass=3,
             min_class=1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -111,6 +118,7 @@ class ChargedParticleCaster(Weapon):
             hardpoints=2,
             min_class=1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -147,6 +155,7 @@ class MagSpikeArray(Weapon):
             hardpoints=2,
             min_class=1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -165,6 +174,7 @@ class SpinalBeamCannon(Weapon):
             hardpoints=3,
             min_class=2
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -183,6 +193,7 @@ class SmartCloud(Weapon):
             min_class=2,
             to_hit_mod=8
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -200,6 +211,7 @@ class Gravcannon(Weapon):
             min_class=2,
             to_hit_mod=8
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -218,6 +230,7 @@ class SpikeInversionProjector(Weapon):
             min_class=2,
             to_hit_mod=1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -236,6 +249,7 @@ class VortexTunnelInductor(Weapon):
             hardpoints=4,
             min_class=3
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -254,6 +268,7 @@ class MassCannon(Weapon):
             hardpoints=4,
             min_class=3
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -272,6 +287,7 @@ class LightningChargeMantle(Weapon):
             min_class=3,
             to_hit_mod=5
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo
@@ -290,6 +306,7 @@ class SingularityGun(Weapon):
             min_class=3,
             to_hit_mod=5
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
     @property
     @check_ammo

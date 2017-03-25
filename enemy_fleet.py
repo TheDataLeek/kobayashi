@@ -40,8 +40,8 @@ def generate(arena):
         gunner = kob.generate.generate_gunner(ship.ship_class + random.randint(1, 5))
         ship.register_gunner(gunner)
 
-    ship.register_weapon(kob.weapons.ImplosionFieldProjector())
-    ship.register_weapon(kob.weapons.RandrodWarpLineGun())
+    ship.register_weapon(kob.weapons.ImplosionFieldProjector(wrange=8))
+    ship.register_weapon(kob.weapons.RandrodWarpLineGun(wrange=8))
     #TODO SiegeMissiles
 
     ship.register_AI(1)
@@ -68,4 +68,4 @@ def generate(arena):
         ship.register_AI(1)
         ships.append(ship)
 
-    kob.generate.position_ships(arena, ships, (10, 10, 100))
+    kob.generate.position_ships(arena, ships, (10, 10, 50))

@@ -1,6 +1,7 @@
 from .ships import Fighter
 
 import os
+from tqdm import tqdm
 import inspect
 import numpy as np
 import matplotlib
@@ -79,9 +80,10 @@ class Arena(object):
         for ship in self.ships:
             if ship.destroyed is False:
                 ship.tick(self)
+        self.show(save=True)
 
     def tickn(self, n):
-        for _ in range(n):
+        for _ in tqdm(range(n)):
             self.tick()
 
     def show(self, save=False):
@@ -96,13 +98,13 @@ class Arena(object):
                 points.append(ship.coords)
                 colors.append(ship.team)
                 sizes.append((ship.ship_class + 1) * 100)
-        ax.scatter(*np.array(points).T, c=colors, alpha=0.5, s=sizes)
+        ax.scatter(*np.array(points).T, c=colors, alpha=0.5, s=sizes, cmap=plt.get_cmap('Vega10'))
 
         # ax.set_xlim(-1, 30)
         # ax.set_ylim(-1, 30)
         # ax.set_zlim(0, 30)
 
-        plt.axis('off')
+        # plt.axis('off')
 
         if save:
             plt.savefig(f'./img/arena{self.framenum}.png')

@@ -52,10 +52,10 @@ def generate(arena):
             allies=[2, 4],
             speed=3
         )
-        ship.register_weapon(SingularityGun())
-        ship.register_weapon(SingularityGun())
-        ship.register_weapon(LightningChargeMantle())
-        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SingularityGun(wrange=16))
+        ship.register_weapon(SingularityGun(wrange=16))
+        ship.register_weapon(LightningChargeMantle(wrange=16))
+        ship.register_weapon(SpikeInversionProjector(wrange=16))
 
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
         for i in range(10):
@@ -94,8 +94,11 @@ def generate(arena):
         extra_dmg=5,
         flak=True,
         phase=1,
-        ammo=10
+        ammo=10,
+        wrange=2
     ))
+
+    ship.destroyed = True
 
     ship.player_ship = True
 
@@ -133,16 +136,19 @@ def generate(arena):
         extra_dmg=1,
         armor_pen=10,
         cloud=True,
+        wrange=8,
         phase=2
     ))
     ship.register_weapon(Gravcannon(
         to_hit_mod=4,
         extra_dmg=1,
+        wrange=8,
         armor_pen=20
     ))
     ship.register_weapon(SpikeInversionProjector(
         to_hit_mod=4,
         extra_dmg=1,
+        wrange=8,
         armor_pen=15,
         phase=2
     ))
@@ -150,6 +156,7 @@ def generate(arena):
         to_hit_mod=4,
         extra_dmg=1,
         armor_pen=15,
+        wrange=8,
         phase=2
     ))
 
@@ -173,10 +180,10 @@ def generate(arena):
         for _ in range(10):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon())
-        ship.register_weapon(Gravcannon())
-        ship.register_weapon(SmartCloud())
-        ship.register_weapon(PlasmaBeam())
+        ship.register_weapon(Gravcannon(wrange=8))
+        ship.register_weapon(Gravcannon(wrange=8))
+        ship.register_weapon(SmartCloud(wrange=8))
+        ship.register_weapon(PlasmaBeam(wrange=8))
 
         ship.register_AI(1)
 
@@ -207,10 +214,12 @@ def generate(arena):
         ship.register_weapon(PlasmaBeam(
             to_hit_mod=8,
             extra_dmg=3,
+            wrange=2,
             armor_pen=10
         ))
         ship.register_weapon(TorpedoLauncher(
             to_hit_mod=8,
+            wrange=2,
             extra_dmg=3,
             armor_pen=20,
             ammo=4
@@ -218,6 +227,7 @@ def generate(arena):
         ship.register_weapon(TorpedoLauncher(
             to_hit_mod=8,
             extra_dmg=3,
+            wrange=2,
             armor_pen=20,
             ammo=4
         ))
@@ -318,13 +328,13 @@ def generate(arena):
         for i in range(20):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon())
-        ship.register_weapon(MassCannon())
-        ship.register_weapon(MassCannon())
-        ship.register_weapon(SpikeInversionProjector())
-        ship.register_weapon(SpikeInversionProjector())
-        ship.register_weapon(SunshineField())
-        ship.register_weapon(UmbrellaBarrageSystem())
+        ship.register_weapon(Gravcannon(wrange=16))
+        ship.register_weapon(MassCannon(wrange=16))
+        ship.register_weapon(MassCannon(wrange=16))
+        ship.register_weapon(SpikeInversionProjector(wrange=16))
+        ship.register_weapon(SpikeInversionProjector(wrange=16))
+        ship.register_weapon(SunshineField(wrange=16))
+        ship.register_weapon(UmbrellaBarrageSystem(wrange=16))
 
         ship.register_AI(1)
 
@@ -349,11 +359,11 @@ def generate(arena):
         for i in range(10):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon())
-        ship.register_weapon(SpikeInversionProjector())
-        ship.register_weapon(SpikeInversionProjector())
-        ship.register_weapon(SpikeInversionProjector())
-        ship.register_weapon(SmartCloud())
+        ship.register_weapon(Gravcannon(wrange=8))
+        ship.register_weapon(SpikeInversionProjector(wrange=8))
+        ship.register_weapon(SpikeInversionProjector(wrange=8))
+        ship.register_weapon(SpikeInversionProjector(wrange=8))
+        ship.register_weapon(SmartCloud(wrange=8))
 
         ship.register_AI(1)
         ships.append(ship)
@@ -377,8 +387,8 @@ def generate(arena):
         for i in range(10):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(JitterBeamProjector())
-        ship.register_weapon(PlasmaBeam())
+        ship.register_weapon(JitterBeamProjector(wrange=2))
+        ship.register_weapon(PlasmaBeam(wrange=2))
         ship.register_AI(1)
         ships.append(ship)
 

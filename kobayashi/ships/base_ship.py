@@ -108,14 +108,18 @@ class Ship(metaclass=abc.ABCMeta):
         gun_phase = random.randint(0, self.spike)
         phase_check = (gun_phase == ship.phase) or (dice(1, 6) + weapon.weap_phase > (gun_phase - ship.phase))
         # to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
-        to_hit_check = (dice(1, 20) + weapon.to_hit_mod + ship.AC > 20)
+        to_hit_roll = dice(1, 20)
+        to_hit_check = (to_hit_roll + weapon.to_hit_mod + ship.AC > 20)
         if phase_check and to_hit_check:
-            DR_dmg = min(0, max(0, ship.armor - weapon.armor_pen) - weapon.wdamage)
+            mult = 1
+            if to_hit_roll == 20:
+                mult = 2
+            DR_dmg = min(0, max(0, ship.armor - weapon.armor_pen) - mult * weapon.wdamage)
             if DR_dmg < 0:
-                print(f'{self.name}({self.team} {self.__class__.__name__}) attacked {ship.name} for {-DR_dmg}')
+                print(f'({self.team} {self.__class__.__name__}) attacked ({ship.team} {ship.__class__.__name__}) for {-DR_dmg}')
                 ship.hp += DR_dmg
                 if ship.hp <= 0:
-                    print(f'{ship.name}({self.team} {self.__class__.__name__}) was destroyed')
+                    print(f'{ship.name}({ship.team} {ship.__class__.__name__}) was destroyed')
                     ship.remove(arena)
 
 
@@ -179,7 +183,7 @@ class Ship(metaclass=abc.ABCMeta):
 
         if arena[loc] is not None:
             raise ArenaCoordinateOccupied(f'Refusing to move {self.name}({self.team} {self.__class__.__name__}). {loc} occupied')
-        print(f'{self.name}({self.team} {self.__class__.__name__}) moved {self.coords} -> {loc}')
+        # print(f'{self.name}({self.team} {self.__class__.__name__}) moved {self.coords} -> {loc}')
         arena[self.coords] = None
         self.coords = loc
         arena[self.coords] = self
@@ -197,8 +201,7 @@ class Ship(metaclass=abc.ABCMeta):
     def list_ships(self, arena, d=math.inf):
         ships = []
         for coord, ship in arena.arena.items():
-            if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
-                    (ship.team != self.team) and
+            if ((ship.team != self.team) and
                     (ship.team not in self.allies)):
                 new_d = distance(self.coords, ship.coords)
                 if new_d <= d:
