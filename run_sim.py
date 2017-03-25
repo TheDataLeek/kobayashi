@@ -7,12 +7,12 @@ import kobayashi as kob
 
 def main():
     arena = kob.arena.Arena()
-    arena.register_ship((0, 0, 0), kob.generate.generate_ship(kob.ships.Fighter))
-    arena.register_ship((100, 100, 100), kob.generate.generate_ship(kob.ships.Fighter))
+    kob.generate.generate_fleet(arena, size=10, team=1, center=(0, 0, 0))
+    kob.generate.generate_fleet(arena, size=10, team=2, center=(100, 100, 100))
 
     commands = {
         'tick': arena.tick,
-        'savetick': arena.show,
+        'show': arena.show,
         'list': arena.list_ships,
     }
 
@@ -31,14 +31,11 @@ def main():
                     commands[command]()
                 except KeyError:
                     try:
-                        try:
-                            results = eval(command)
-                            if results is not None:
-                                print(results)
-                        except SyntaxError:
-                            print('Syntax Error')
-                    except NameError:
-                        print("Command not found")
+                        results = eval(command)
+                        if results is not None:
+                            print(results)
+                    except Exception as e:
+                        print(e)
 
         except (EOFError, KeyboardInterrupt) as e:
             break

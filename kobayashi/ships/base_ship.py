@@ -15,7 +15,8 @@ class Ship(metaclass=abc.ABCMeta):
         self.coords = (0, 0, 0)
         self.weapons = []
         self.speed = 0
-        self.crew = {}
+        self.pilot = None
+        self.gunners = []
         self.hp = 10
         self.armor = 0
         self.crew_min = 1
@@ -41,6 +42,10 @@ class Ship(metaclass=abc.ABCMeta):
 
     def __int__(self):
         return self.team
+
+    @property
+    def crew_size(self):
+        return len(self.gunners) + (1 if self.pilot is not None else 0)
 
     def register_AI(self, level):
         if level == 0:
@@ -141,14 +146,17 @@ class Ship(metaclass=abc.ABCMeta):
         except NoTargetsAvailable:
             pass
 
-    def register_crewmember(self, person, role):
-        if role in self.crew:
-            self.crew[role] = person
+    def register_pilot(self, person):
+        if self.crew_size < self.crew_max:
+            self.pilot = person
         else:
-            if len(self.crew) <= self.crew_max:
-                self.crew[role] = person
-            else:
-                raise FullCrewException(f'Capacity is at {self.capacity}.')
+            raise FullCrewException(f'Capacity is at {self.capacity}.')
+
+    def register_gunner(self, person):
+        if self.crew_size < self.crew_max:
+            self.gunners.append(person)
+        else:
+            raise FullCrewException(f'Capacity is at {self.capacity}.')
 
     @property
     def current_free_mass(self):

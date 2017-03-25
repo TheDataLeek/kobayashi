@@ -2,6 +2,8 @@ from .ships import Fighter
 
 import os
 import numpy as np
+import matplotlib
+matplotlib.rcParams['backend'] = "Qt5Agg"
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 
@@ -50,8 +52,6 @@ class Arena(object):
     def show(self):
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
-        X, Y = np.meshgrid(np.linspace(-1, 30, 30), np.linspace(-1, 30, 30))
-        ax.plot_wireframe(X, Y, 0, alpha=0.2)
 
         points = []
         colors = []
@@ -65,4 +65,7 @@ class Arena(object):
         # ax.set_ylim(-1, 30)
         # ax.set_zlim(0, 30)
 
-        plt.savefig(f'./img/arena{self.framenum}.png')
+        # plt.savefig(f'./img/arena{self.framenum}.png')
+        plt.show()
+
+        return None
