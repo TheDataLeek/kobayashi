@@ -29,7 +29,7 @@ def generate(arena):
         speed=3,
         armor=25+5, #5 armor because of reduced AP of attacking weapons due to polyceramic overlay.
         AC=4,
-        team=3,
+        team=2,
         crew_max=1600,
         spike=4
     )
@@ -49,7 +49,7 @@ def generate(arena):
 
     for i in range(750):
         ship = kob.ships.Fighter(
-            team=3,
+            team=2,
             hp=10,
             speed=4,
             armor=6,

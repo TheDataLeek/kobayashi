@@ -236,7 +236,7 @@ def generate(arena):
             armor=8,
             AC=3,
             team=2,
-            allies=[1],
+            allies=[1,4],
             spike=1
         )
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
@@ -291,7 +291,7 @@ def generate(arena):
     Hardened Polyceramic Overlay
     Spike 4
     12x Model Twelve - Frigate
-    Hit Points: 60 Crew: 20/200 Speed: - Armor: 5 AC: 9
+    Hit Points: 60 Crew: 20/200 Speed: 6 Armor: 5 AC: 9
     Jitter Beam Projector (+3 to hit/3d8+1, AP 15, Phase 3), Plasma Beam (+3 to hit/3d6+1, AP 10)
     Spike 3
     48x
@@ -299,7 +299,101 @@ def generate(arena):
      Plasma Beam (+3/3d6+1, AP 10)
     Spike 2
     """
+    #Capital Ships for Neo Mandate.
+    for i in range(3):
+        ship = Cruiser(
+            team=4,
+            hp=80,
+            armor=20+5,
+            AC=3,
+            spike=6,
+            speed=1,
+            crew_max=1000,
+            allies=[2,1]
+        )
+        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        for i in range(20):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+
+        ship.register_weapon(Gravcannon())
+        ship.register_weapon(MassCannon())
+        ship.register_weapon(MassCannon())
+        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SunshineField())
+        ship.register_weapon(UmbrellaBarrageSystem())
+
+        ship.register_AI(1)
+
+        ships.append(ships)
+
+    #Neo Mandate Shantadurga Crusers
+    for i in range(6):
+        ship = Cruiser(
+        team=4,
+        hp=80,
+        armor=15+5,
+        AC=7,
+        spike=4,
+        speed=1,
+        crew_max=20,
+        allies=[2,1]
+        )
+        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        for i in range(10):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+
+        ship.register_weapon(Gravcannon())
+        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SpikeInversionProjector())
+        ship.register_weapon(SmartCloud())
+
+        ship.register_AI(1)
+        ships.append(ship)
+
+    #Neo Mandate Shantadurga Frigates
+    for i in range(12):
+        ship = Frigate(
+        team=4,
+        hp=60,
+        armor=5,
+        AC=9,
+        spike=3,
+        speed=6,
+        crew_max=200,
+        allies=[2,1]
+        )
+        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        for i in range(10):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+
+        ship.register_weapon(JitterBeamProjector())
+        ship.register_weapon(PlasmaBeam())
+        ship.register_AI(1)
+        ships.append(ship)
 
 
+    #Neo Mandate Shantadurga Fighters
+    for i in range(25):
+        ship = Fighter(
+        team=4,
+        hp=25,
+        armor=5,
+        AC=6,
+        spike=2,
+        speed=4,
+        crew_max=200,
+        allies=[2,1]
+        )
+        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        for i in range(10):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
+        ship.register_weapon(PlasmaBeam())
+
+        ship.register_AI(1)
+        ships.append(ship)
+
+    # position them
     position_ships(arena, ships, (20, 20, 0))
