@@ -33,10 +33,11 @@ class Arena(object):
     def num_ships_left(self):
         shipcount = {}
         for ship in self.ships:
-            try:
-                shipcount[ship.team] += 1
-            except KeyError:
-                shipcount[ship.team] = 1
+            if not ship.destroyed:
+                try:
+                    shipcount[ship.team] += 1
+                except KeyError:
+                    shipcount[ship.team] = 1
         return shipcount
 
     def ship_by_name(self, key):

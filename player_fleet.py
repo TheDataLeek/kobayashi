@@ -1,9 +1,9 @@
 import random
 
-from kobayashi.ships import Cruiser, Battleship, Fighter
+from kobayashi.ships import *
 from kobayashi.weapons import *
-from kobayashi.crew import Pilot, Gunner
-from kobayashi.generate import position_ships, generate_pilot, generate_gunner
+from kobayashi.crew import *
+from kobayashi.generate import *
 
 
 def phoenix():
@@ -47,6 +47,7 @@ def generate(arena):
 
     ships = []
 
+    # Phoenix Ships
     for i in range(2):
         ship = Battleship(
             team=1,
@@ -54,12 +55,42 @@ def generate(arena):
             armor=23,
             AC=-1
         )
+        ship.register_weapon(SingularityGun())
+        ship.register_weapon(SingularityGun())
+        ship.register_weapon(LightningChargeMantle())
+        ship.register_weapon(SpikeInversionProjector())
+
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
+        for i in range(10):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
         ship.register_AI(1)
 
         ships.append(ship)
 
+    # BORG CUBE
+    # TODO
+
+    # Borg Cruisers
+    for i in range(3):
+        ship = Cruiser(
+            hp=70,
+            crew_max=200,
+            speed=2,
+            armor=18,
+            AC=6,
+            spike=3
+        )
+        ship.register_pilot(generate_pilot(random.randint(1, 5)))
+        for _ in range(10):
+            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+
+        ship.register_weapon(Gravcannon())
+        ship.register_weapon(Gravcannon())
+        ship.register_weapon(SmartCloud())
+        ship.register_weapon(PlasmaBeam())
+
+    # Borg fighters
     for i in range(130):
         ship = Fighter(
             hp=16,
@@ -77,4 +108,28 @@ def generate(arena):
 
         ships.append(ship)
 
+    # Captain Bomber
+    ship = Fighter(
+        hp=25,
+        crew_max=2,
+        speed=10,
+        armor=15,
+        AC=-3,
+        spike=6,
+        max_power=15,
+        max_hardpoints=10,
+        max_mass=10
+    )
+    ship.register_pilot(generate_pilot(10))
+    ship.register_gunner(generate_gunner(10))
+
+    ship.register_weapon(FractalImpactCharges())
+    ship.register_weapon(FractalImpactCharges())
+    ship.register_weapon(FractalImpactCharges())
+
+    ships.append(ship)
+
+
+    # position them
     position_ships(arena, ships, (0, 0, 25))
+
