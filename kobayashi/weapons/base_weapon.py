@@ -41,6 +41,8 @@ class Weapon(metaclass=abc.ABCMeta):
         self.notes = None
         self.wrange = 10
 
+        self.to_hit_mod = 0
+
         self.__dict__ = {**self.__dict__, **kwargs}
 
     @abc.abstractproperty

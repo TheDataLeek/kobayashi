@@ -8,4 +8,3 @@ class Level1(ShipAI):
             target, distance, threat = targets[0]
             if not self.ship.within_range(target):
                 self.ship.move_towards(arena, target.coords)
-

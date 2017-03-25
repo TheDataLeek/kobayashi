@@ -33,6 +33,10 @@ def generate_fleet(arena, size=10, center=(0,0,0), team=1):
         ship = generate_ship(Fighter, team)
         ships.append(ship)
 
+    position_ships(arena, ships, center)
+
+
+def position_ships(arena, ships, center):
     for ship in ships:
         coord = center
         while True:
@@ -44,6 +48,7 @@ def generate_fleet(arena, size=10, center=(0,0,0), team=1):
         ship.coords = coord
         arena[coord] = ship
         arena.ships.append(ship)
+
 
 
 

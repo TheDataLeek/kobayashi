@@ -1,4 +1,4 @@
-from ..util import distance, dice
+from ..util import distance, dice, all_neighbor_points
 from ..exceptions import *
 from .ship_ai import Level1
 
@@ -7,10 +7,11 @@ import random
 import math
 import string
 import itertools
+import heapq
 
 
 class Ship(metaclass=abc.ABCMeta):
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         self.player_ship = False
         self.name = ''.join(random.choice(string.ascii_lowercase)
                             for _ in range(10))
@@ -41,6 +42,9 @@ class Ship(metaclass=abc.ABCMeta):
         self.ship_class = 0
         self.subordinates = []
         self.command_ship = None
+        self.AC = 10
+        self.spike = 1
+        self.phase = 0
 
         # overwrite with anything passed
         self.__dict__ = {**self.__dict__, **kwargs}
@@ -78,23 +82,27 @@ class Ship(metaclass=abc.ABCMeta):
         return best_gunners[0]
 
     def attack(self, arena):
-        close_ships, num_within_range = self.list_close_ships(arena)
-        if num_within_range == 0:
-            raise NoTargetsAvailable(f'{self.name} has no targets')
-        if len(close_ships) > 0:
-            ship, distance, weapon, threat = close_ships[0]
-            # Take into account armor (strict DR)
-            gunner = self.best_gunner
-            if gunner is None:
-                return
-            if dice(1, 20) + gunner.skillmod > 20:
-                DR_dmg = min(0, ship.armor - weapon.wdamage)
+        for weapon in self.weapons:
+            close_ships = self.list_ships(arena, d=weapon.wrange)
+            for ship, d, t in close_ships:
+                self.attack_ship(weapon, ship, arena)
+                break
+
+    def attack_ship(self, weapon, ship, arena):
+        gunner = self.best_gunner
+        if gunner is None:
+            return
+        phase_check = (self.phase == ship.phase) or (dice(1, 6) > (self.phase - ship.phase))
+        to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
+        if phase_check and to_hit_check:
+            DR_dmg = min(0, ship.armor - weapon.wdamage)
+            if DR_dmg < 0:
                 print(f'{self.name} attacked {ship.name} for {-DR_dmg}')
-                if DR_dmg < 0:
-                    ship.hp += weapon.wdamage
-                    if ship.hp <= 0:
-                        print(f'{ship.name} was destroyed')
-                        ship.remove(arena)
+                ship.hp += DR_dmg
+                if ship.hp <= 0:
+                    print(f'{ship.name} was destroyed')
+                    ship.remove(arena)
+
 
     def move_towards(self, arena, coords):
         if distance(self.coords, coords) <= self.speed:
@@ -109,6 +117,7 @@ class Ship(metaclass=abc.ABCMeta):
             self._move(arena, new_loc)
 
     def move(self, arena, new_loc=None):
+        self.phase = random.randint(0, self.spike)
         # If given directions, try to move there
         if new_loc is not None:
             if distance(self.coords, new_loc) > self.speed:
@@ -125,75 +134,37 @@ class Ship(metaclass=abc.ABCMeta):
     def _move(self, arena, loc):
         """ Not guaranteed to move full speed!! """
         if loc in arena.arena:  # check for collision
-            i = 1
+            pqueue = []
+            visited = [loc]
+
+            neighbors = all_neighbor_points(loc)
+
+            for n in neighbors:
+                heapq.heappush(pqueue, (-distance(self.coords, n), n))
+
             while True:
-                modlist = list(range(-i, i)) * 2
-                coord_mods = list(set(itertools.permutations(modlist,
-                                                             len(self.coords))))
-                new_coords = [tuple(loc[i] + coord_mods[j][i] for i in range(len(loc)))
-                              for j in range(len(coord_mods))]
-                new_coords = [tup for tup in new_coords
-                              if ((distance(self.coords, tup) <= self.speed) and
-                                  (arena[tup] is None))]
-                if len(new_coords) > 0:
-                    loc = new_coords[0]
+                try:
+                    d, new_loc = heapq.heappop(pqueue)
+                except IndexError:
+                    loc = self.coords
                     break
+
+                if new_loc in arena.arena:
+                    visited.append(new_loc)
+                    new_loc_neighbors = [t for t in all_neighbor_points(new_loc)
+                                         if t not in visited]
+                    for n in new_loc_neighbors:
+                        heapq.heappush(pqueue, (-distance(self.coords, n), n))
                 else:
-                    i += 1
+                    loc = new_loc
+                    break
+
         if arena[loc] is not None:
             raise ArenaCoordinateOccupied(f'Refusing to move {self.name}. {loc} occupied')
         print(f'{self.name} moved {self.coords} -> {loc}')
         arena[self.coords] = None
         self.coords = loc
         arena[self.coords] = self
-
-        # for coord in arena:
-        #     if coord == new_loc: #This means a collision will occur since there is already a shipinstance at the new location
-        #         i = 0
-        #         reductionFactor = 1
-        #         pos = 0
-        #         collisionFlag = 0
-        #         while(collisionFlag != 1):
-        #             if reductionFactor > self.speed:
-        #                 collisionFlag = 1 #Setting this is not required since we are breaking out of the loop but I have it here anyway for clarity
-        #                 print("CANNOT MOVE!")
-        #                 new_loc = self.loc #cannot move so the shipinstance will remain at same position
-        #                 break
-        #             for pos in range(0,7):
-        #                 collisionFlag = 1
-        #                 if pos == 0:
-        #                     x = tuple(reductionFactor * i for i in (1,0,0))
-        #                 elif pos == 1:
-        #                     x = tuple(reductionFactor*i for i in (0,1,0))
-        #                 elif pos == 2:
-        #                     x = tuple(reductionFactor*i for i in (0,0,1))
-        #                 elif pos == 3:
-        #                     x = tuple(reductionFactor*i for i in (1,1,0))
-        #                 elif pos == 4:
-        #                     x = tuple(reductionFactor*i for i in (1,0,1))
-        #                 elif pos == 5:
-        #                     x = tuple(reductionFactor*i for i in (0,1,1))
-        #                 elif pos == 6:
-        #                     x = tuple(reductionFactor*i for i in (1,1,1))
-        #                 tempLoc = tuple(map(operator.sub, new_loc, x))
-        #                 if(distance(new_loc, tempLoc) > self.speed):
-        #                     collisionFlag == 1
-        #                     print("Cannot move!")
-        #                     break
-        #                 for coord in listofCoords:
-        #                     print("Entering comparison loop")
-        #                     if tempLoc == coord:
-        #                         collisionFlag = 0
-        #                         print("Collision detected at {}".format(tempLoc))
-        #                         break #if collision was detected, no point in comparion against other coordinates.
-        #                 if(collisionFlag):
-        #                     print("No Collision Detected at {}".format(tempLoc))
-        #                     new_loc = tempLoc #Since no collision was detected at this location, we can move this shipinstance here instead.
-        #                     break #If no collision was detected, again no need to shift x and check other points.
-        #             reductionFactor += 1
-        #     arena[self.coords] = None
-        #     self.coords = new_loc
-        #     arena[self.coords] = self
 
     def random_jitter(self):
         return tuple(_ + random.randint(-1, 1)
@@ -205,31 +176,16 @@ class Ship(metaclass=abc.ABCMeta):
                 return True
         return False
 
-    def list_ships(self, arena):
+    def list_ships(self, arena, d=math.inf):
         ships = []
         for coord, ship in arena.arena.items():
             if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
                     (ship.team != self.team)):
-                d = distance(self.coords, ship.coords)
-                ships.append((ship, d, self.threat_level(ship)))
+                new_d = distance(self.coords, ship.coords)
+                if new_d <= d:
+                    ships.append((ship, new_d, self.threat_level(ship)))
         ships = sorted(ships, key=lambda tup: (tup[0].ship_class, -tup[-1]))
         return ships
-
-    def list_close_ships(self, arena):
-        """
-        Returns a list of all ships sorted by threat level descending that are within range
-        """
-        ships = []
-        for coord, ship in arena.arena.items():
-            if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
-                    (ship.team != self.team)):
-                d = distance(self.coords, ship.coords)
-                for w in self.weapons:
-                    if d < w.wrange:
-                        ships.append((ship, d, w, self.threat_level(ship)))
-        ships = sorted(ships, key=lambda tup: (tup[0].ship_class, -tup[-1]))
-        num_within_range = len(ships)
-        return ships, num_within_range
 
     def tick(self, arena):
         if self.player_ship is not True:
@@ -243,13 +199,13 @@ class Ship(metaclass=abc.ABCMeta):
         if self.crew_size < self.crew_max:
             self.pilot = person
         else:
-            raise FullCrewException(f'{self.name} capacity is at {self.capacity}.')
+            raise FullCrewException(f'{self.name} capacity is max')
 
     def register_gunner(self, person):
         if self.crew_size < self.crew_max:
             self.gunners.append(person)
         else:
-            raise FullCrewException(f'{self.name} capacity is at {self.capacity}.')
+            raise FullCrewException(f'{self.name} capacity is max')
 
     @property
     def current_free_mass(self):
@@ -273,7 +229,7 @@ class Ship(metaclass=abc.ABCMeta):
             self.weapons.append(weapon)
         else:
             raise NotEnoughSpacePowerMass(
-                    'Refusing to add weapon to {self.name} '
+                    f'Refusing to add weapon to {self.name} '
                     f'({new_mass}/{self.max_mass})m '
                     f'({new_power}/{self.max_power})p '
                     f'({new_hardpoints}/{self.max_hardpoints})h')

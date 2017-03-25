@@ -23,31 +23,6 @@ def main():
 
     embed()
 
-    # while True:
-    #     try:
-    #         command = input('$--> ')
-
-    #         if command.lower() == 'exit':
-    #             break
-    #         elif command.lower() in ['help', '?']:
-    #             print(f'arena -> {type(arena)}')
-    #             for k, v in commands.items():
-    #                 print(f'{k} -> {v}')
-    #         else:
-    #             try:
-    #                 commands[command]()
-    #             except KeyError:
-    #                 try:
-    #                     results = eval(command)
-    #                     if results is not None:
-    #                         print(results)
-    #                 except Exception as e:
-    #                     print(e)
-
-    #     except (EOFError, KeyboardInterrupt) as e:
-    #         break
-
-
 
 
 

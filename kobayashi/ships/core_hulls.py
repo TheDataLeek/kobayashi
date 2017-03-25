@@ -2,7 +2,7 @@ from .base_ship import Ship
 
 
 class Fighter(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 5,
             armor = 5,
@@ -15,10 +15,11 @@ class Fighter(Ship):
             max_hardpoints = 1,
             ship_class = 0
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class Shuttle(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 3,
             armor = 0,
@@ -31,10 +32,11 @@ class Shuttle(Ship):
             max_hardpoints = 1,
             ship_class = 0
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class FreeMerchant(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 3,
             armor = 2,
@@ -47,10 +49,11 @@ class FreeMerchant(Ship):
             max_hardpoints = 2,
             ship_class = 1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class PatrolBoat(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 4,
             armor = 5,
@@ -63,10 +66,11 @@ class PatrolBoat(Ship):
             max_hardpoints = 4,
             ship_class = 1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class Frigate(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 2,
             armor = 10,
@@ -79,10 +83,11 @@ class Frigate(Ship):
             max_hardpoints = 6,
             ship_class = 1
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class BulkFreighter(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 0,
             armor = 0,
@@ -95,10 +100,11 @@ class BulkFreighter(Ship):
             max_hardpoints = 2,
             ship_class = 2
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class Cruiser(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 1,
             armor = 15,
@@ -111,10 +117,11 @@ class Cruiser(Ship):
             max_hardpoints = 10,
             ship_class = 2
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class Battleship(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 0,
             armor = 20,
@@ -127,10 +134,11 @@ class Battleship(Ship):
             max_hardpoints = 15,
             ship_class = 3
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
 
 
 class Carrier(Ship):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__(
             speed = 0,
             armor = 10,
@@ -143,3 +151,4 @@ class Carrier(Ship):
             max_hardpoints = 4,
             ship_class = 3
         )
+        self.__dict__ = {**self.__dict__, **kwargs}
