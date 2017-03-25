@@ -46,6 +46,9 @@ class Arena(object):
             if ((ship.team == team) and (not ship.destroyed) and (ship.ticked is False)):
                 getattr(ship, command)(*args, **kwargs)
 
+    def get_fleet(self, team):
+        return [s for s in self.ships if s.team == team]
+
     def num_ships_left(self):
         shipcount = {}
         for ship in self.ships:

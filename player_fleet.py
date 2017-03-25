@@ -48,7 +48,7 @@ def generate(arena):
             team=1,
             hp=170,
             armor=28,
-            AC=-1,
+            AC=-2,
             allies=[2, 4],
             speed=3
         )
@@ -61,13 +61,49 @@ def generate(arena):
         for i in range(10):
             ship.register_gunner(generate_gunner(random.randint(1, 5)))
 
-        # ship.player_ship = True
+        ship.player_ship = True
         ship.register_AI(1)
 
         ships.append(ship)
 
     # position them
     position_ships(arena, ships, (10, 10, 0))
+
+    ships = []
+
+    """
+    Fleet 5: Valkyrie (Frigate)
+    Hit points 20, Crew 10/10 Speed: 10 Armor: 10 AC 0
+    Mag Spike Array+5/2d6+5 Flak, Phase 1, Ammo 10
+    Grav Eddy Displacer Hardened Polyceramic Overlay
+    """
+    ship = Frigate(
+        team=5,
+        hp=20,
+        speed=10,
+        armor=15,
+        AC=0,
+        spike=3
+    )
+
+    ship.register_pilot(generate_pilot(5))
+    for i in range(10):
+        ship.register_gunner(generate_gunner(5))
+    ship.register_weapon(MagSpikeArray(
+        to_hit_mod=5,
+        extra_dmg=5,
+        flak=True,
+        phase=1,
+        ammo=10
+    ))
+
+    ship.player_ship = True
+
+    ship.register_AI(1)
+
+    ships.append(ship)
+
+    position_ships(arena, ships, (100, 100, 100))
 
     ships = []
 
