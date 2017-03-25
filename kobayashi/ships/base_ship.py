@@ -46,6 +46,8 @@ class Ship(metaclass=abc.ABCMeta):
         self.spike = 1
         self.phase = 0
 
+        self.gunners_used = []
+
         # overwrite with anything passed
         self.__dict__ = {**self.__dict__, **kwargs}
 
@@ -76,26 +78,28 @@ class Ship(metaclass=abc.ABCMeta):
 
     @property
     def best_gunner(self):
-        best_gunners = sorted(self.gunners, key=lambda g: -g.skillmod)
+        best_gunners = sorted([g for g in self.gunners if g not in self.gunners_used], key=lambda g: -g.skillmod)
         if len(best_gunners) == 0:
             return None
         return best_gunners[0]
 
     def attack(self, arena):
         for weapon in self.weapons:
-            close_ships = self.list_ships(arena, d=weapon.wrange)
-            for ship, d, t in close_ships:
-                self.attack_ship(weapon, ship, arena)
-                break
+            if weapon.ammo > 0:   # only attack if we have ammo left
+                close_ships = self.list_ships(arena, d=weapon.wrange)
+                for ship, d, t in close_ships:
+                    self.attack_ship(weapon, ship, arena)
+                    break
 
     def attack_ship(self, weapon, ship, arena):
         gunner = self.best_gunner
+        self.gunners_used.append(gunner)
         if gunner is None:
             return
         phase_check = (self.phase == ship.phase) or (dice(1, 6) > (self.phase - ship.phase))
         to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
         if phase_check and to_hit_check:
-            DR_dmg = min(0, ship.armor - weapon.wdamage)
+            DR_dmg = min(0, max(0, ship.armor - weapon.armor_pen) - weapon.wdamage)
             if DR_dmg < 0:
                 print(f'{self.name} attacked {ship.name} for {-DR_dmg}')
                 ship.hp += DR_dmg
@@ -188,6 +192,7 @@ class Ship(metaclass=abc.ABCMeta):
         return ships
 
     def tick(self, arena):
+        self.gunners_used = []
         if self.player_ship is not True:
             self.move(arena)
             try:

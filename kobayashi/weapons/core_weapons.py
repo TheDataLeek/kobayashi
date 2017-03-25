@@ -34,12 +34,13 @@ class FractalImpactCharges(Weapon):
             armor_pen=15,
             ammo=4,
             power=5,
+            to_hit_mod=11
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(2, 6)
+        return dice(2, 6) + 3
 
 
 class PolyspectralMESBeam(Weapon):
@@ -124,7 +125,7 @@ class PlasmaBeam(Weapon):
             power=5,
             free_mass=2,
             hardpoints=2,
-            to_hit_mod=6,
+            to_hit_mod=8,
             min_class=1
         )
         self.__dict__ = {**self.__dict__, **kwargs}
@@ -132,7 +133,7 @@ class PlasmaBeam(Weapon):
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 6) + 1
+        return dice(3, 6) + 3
 
 
 class MagSpikeArray(Weapon):
@@ -179,13 +180,14 @@ class SmartCloud(Weapon):
             power=10,
             free_mass=5,
             hardpoints=2,
-            min_class=2
+            min_class=2,
+            to_hit_mod=8
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 10)
+        return dice(3, 10) + 3
 
 
 class Gravcannon(Weapon):
@@ -195,13 +197,14 @@ class Gravcannon(Weapon):
             power=15,
             free_mass=4,
             hardpoints=3,
-            min_class=2
+            min_class=2,
+            to_hit_mod=8
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(4, 6)
+        return dice(4, 6) + 3
 
 
 class SpikeInversionProjector(Weapon):
@@ -212,13 +215,14 @@ class SpikeInversionProjector(Weapon):
             power=10,
             free_mass=3,
             hardpoints=3,
-            min_class=2
+            min_class=2,
+            to_hit_mod=1
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(3, 8)
+        return dice(3, 8) + 3
 
 
 class VortexTunnelInductor(Weapon):
@@ -265,13 +269,14 @@ class LightningChargeMantle(Weapon):
             power=15,
             free_mass=5,
             hardpoints=2,
-            min_class=3
+            min_class=3,
+            to_hit_mod=5
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(1, 20)
+        return dice(1, 20) + 3
 
 
 class SingularityGun(Weapon):
@@ -282,10 +287,11 @@ class SingularityGun(Weapon):
             power=25,
             free_mass=10,
             hardpoints=5,
-            min_class=3
+            min_class=3,
+            to_hit_mod=5
         )
 
     @property
     @check_ammo
     def wdamage(self, *args, **kwargs):
-        return dice(5, 20)
+        return dice(5, 20) + 3
