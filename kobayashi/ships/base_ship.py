@@ -88,6 +88,53 @@ class Ship(metaclass=abc.ABCMeta):
     def move(self, arena, new_loc=None):
         # If given directions, try to move there
         if new_loc is not None:
+            for coord in arena:
+                if coord == new_loc: #This means a collision will occur since there is already a shipinstance at the new location
+                    i = 0
+                    reductionFactor = 1
+                    pos = 0
+                    collisionFlag = 0
+                    while(collisionFlag != 1):
+                        if reductionFactor > self.speed:
+                            collisionFlag = 1 #Setting this is not required since we are breaking out of the loop but I have it here anyway for clarity
+                            print("CANNOT MOVE!")
+                            new_loc = self.loc #cannot move so the shipinstance will remain at same position
+                            break
+                        for pos in range(0,7):
+                            collisionFlag = 1
+                            if pos == 0:
+                                x = tuple(reductionFactor * i for i in (1,0,0))
+                            elif pos == 1:
+                                x = tuple(reductionFactor*i for i in (0,1,0))
+                            elif pos == 2:
+                                x = tuple(reductionFactor*i for i in (0,0,1))
+                            elif pos == 3:
+                                x = tuple(reductionFactor*i for i in (1,1,0))
+                            elif pos == 4:
+                                x = tuple(reductionFactor*i for i in (1,0,1))
+                            elif pos == 5:
+                                x = tuple(reductionFactor*i for i in (0,1,1))
+                            elif pos == 6:
+                                x = tuple(reductionFactor*i for i in (1,1,1))
+                            tempLoc = tuple(map(operator.sub, new_loc, x))
+                            if(distance(new_loc, tempLoc) > self.speed):
+                                collisionFlag == 1
+                                print("Cannot move!")
+                                break
+                            for coord in listofCoords:
+                                print("Entering comparison loop")
+                                if tempLoc == coord:
+                                    collisionFlag = 0
+                                    print("Collision detected at {}".format(tempLoc))
+                                    break #if collision was detected, no point in comparion against other coordinates.
+                            if(collisionFlag):
+                                print("No Collision Detected at {}".format(tempLoc))
+                                new_loc = tempLoc #Since no collision was detected at this location, we can move this shipinstance here instead.
+                                break #If no collision was detected, again no need to shift x and check other points.
+                        reductionFactor += 1
+            arena[self.coords] = None
+            self.coords = new_loc
+            arena[self.coords] = self
             if distance(self.coords, new_loc) > self.speed:
                 raise NotEnoughSpeed(f'Not enough speed for {self.name}. {distance(self.coords, new_loc)} > {self.speed}')
             else:
