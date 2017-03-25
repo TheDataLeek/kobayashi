@@ -11,6 +11,7 @@ import itertools
 
 class Ship(metaclass=abc.ABCMeta):
     def __init__(self, **kwargs):
+        self.player_ship = False
         self.name = ''.join(random.choice(string.ascii_lowercase)
                             for _ in range(10))
         self.destroyed = False
@@ -103,6 +104,7 @@ class Ship(metaclass=abc.ABCMeta):
             ship.move()
 
     def _move(self, arena, loc):
+        """ Not guaranteed to move full speed!! """
         if loc in arena.arena:  # check for collision
             i = 1
             while True:
@@ -210,11 +212,12 @@ class Ship(metaclass=abc.ABCMeta):
         return ships, num_within_range
 
     def tick(self, arena):
-        self.move(arena)
-        try:
-            self.attack(arena)
-        except NoTargetsAvailable:
-            pass
+        if self.player_ship is not True:
+            self.move(arena)
+            try:
+                self.attack(arena)
+            except NoTargetsAvailable:
+                pass
 
     def register_pilot(self, person):
         if self.crew_size < self.crew_max:

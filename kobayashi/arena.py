@@ -49,23 +49,27 @@ class Arena(object):
         for _ in range(n):
             self.tick()
 
-    def show(self):
+    def show(self, save=False):
         fig = plt.figure(figsize=(10, 10))
         ax = fig.add_subplot(111, projection='3d')
 
         points = []
         colors = []
+        sizes = []
         for ship in self.ships:
             if not ship.destroyed:
                 points.append(ship.coords)
                 colors.append(ship.team)
-        ax.scatter(*np.array(points).T, c=colors)
+                sizes.append((ship.ship_class + 1) * 100)
+        ax.scatter(*np.array(points).T, c=colors, alpha=0.5, s=sizes)
 
         # ax.set_xlim(-1, 30)
         # ax.set_ylim(-1, 30)
         # ax.set_zlim(0, 30)
 
-        # plt.savefig(f'./img/arena{self.framenum}.png')
-        plt.show()
+        if save:
+            plt.savefig(f'./img/arena{self.framenum}.png')
+        else:
+            plt.show()
 
         return None

@@ -8,3 +8,7 @@ def phoenix():
     ship.register_weapon(FlakEmitterBattery())
     ship.register_weapon(ChargedParticleCaster())
     ship.register_weapon(Gravcannon())
+
+
+def generate(arena):
+    pass
