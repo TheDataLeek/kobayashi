@@ -46,6 +46,7 @@ class Ship(metaclass=abc.ABCMeta):
         self.spike = 1
         self.phase = 0
         self.allies = []
+        self.ticked = False
 
         self.gunners_used = []
 
@@ -195,13 +196,15 @@ class Ship(metaclass=abc.ABCMeta):
         return ships
 
     def tick(self, arena):
-        self.gunners_used = []
         if self.player_ship is not True:
+            self.gunners_used = []
+            self.ticked = False
             self.move(arena)
             try:
                 self.attack(arena)
             except NoTargetsAvailable:
                 pass
+            self.ticked = True
 
     def register_pilot(self, person):
         if self.crew_size < self.crew_max:

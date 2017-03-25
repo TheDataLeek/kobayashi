@@ -38,8 +38,13 @@ class Arena(object):
 
     def update_fleet_attr(self, team, key, value):
         for ship in self.ships:
-            if ship.team == team:
+            if ((ship.team == team) and (not ship.destroyed)):
                 ship.key = value
+
+    def send_fleet_command(self, team, command, args, kwargs):
+        for ship in self.ships:
+            if ((ship.team == team) and (not ship.destroyed) and (ship.ticked is False)):
+                getattr(ship, command)(*args, **kwargs)
 
     def num_ships_left(self):
         shipcount = {}
