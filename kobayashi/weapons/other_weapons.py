@@ -29,3 +29,16 @@ class RandrodWarpLineGun(Weapon):
     @check_ammo
     def wdamage(self):
         return dice(2, 20) + 42
+'''
+class AntaeusSiegeMissiles(Weapon):
+    def __init__(self, *args, **kwargs):
+        super().__init__(
+        to_hit_mod=,
+        armor_pen=??
+        )
+        self.__dict__={**self.__dict__, **kwargs}
+        @property
+        @check_ammo
+        def wdamage(self):
+            return dice(???)
+'''

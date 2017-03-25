@@ -27,7 +27,7 @@ def generate(arena):
     ship = kob.ships.Cruiser(
         hp=120,
         speed=3,
-        armor=25,
+        armor=25+5, #5 armor because of reduced AP of attacking weapons due to polyceramic overlay.
         AC=4,
         team=2,
         crew_max=1600,
@@ -41,9 +41,10 @@ def generate(arena):
         ship.register_gunner(gunner)
 
     ship.register_weapon(kob.weapons.ImplosionFieldProjector())
+    ship.register_weapon(kob.weapons.RandrodWarpLineGun())
+    #TODO SiegeMissiles
 
     ship.register_AI(1)
-
     ships.append(ship)
 
     for i in range(750):
@@ -65,9 +66,6 @@ def generate(arena):
         ship.register_weapon(kob.weapons.PlasmaBeam())
 
         ship.register_AI(1)
-
         ships.append(ship)
-
-
 
     kob.generate.position_ships(arena, ships, (0, 0, 0))
