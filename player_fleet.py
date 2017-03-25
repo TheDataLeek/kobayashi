@@ -128,6 +128,30 @@ def generate(arena):
 
     ships.append(ship)
 
+    """
+    Fleet 4: Neo Mandate
+    3x Arx Capital ships
+    Hit Points: 120 Crew: 100/1000 Speed: 2 Armor: 20 AC: 3
+    Gravcannon (+5 to hit/4d6+2, AP 20), Mass Cannon x3 (+5 to hit/2d20+2, AP 20, Phase 3), Spike Inversion Projectors x2 (+5 to hit/3d8+2, AP 15, Phase 2), Sunshine Field (+5 to hit/2d6+2, AP 10, Cloud, Phase 2), Umbrella Barrage
+    System (+5 to hit/Special)
+    Hardened Polyceramic Overlay
+    Spike 6
+    6x Shantadurga Cruisers
+    Hit Points: 80 Crew: 50/300 Speed: 1 Armor: 15 AC: 7
+     Spike Inversion Projector x3 (+4 to hit/3d8+1, AP 15, Phase 2), Gravcannon (+4 to hit/4d6+1, AP 20), Smart Cloud
+    (+4 to hit/3d10+1, Cloud, Clumsy)
+    Hardened Polyceramic Overlay
+    Spike 4
+    12x Model Twelve - Frigate
+    Hit Points: 60 Crew: 20/200 Speed: - Armor: 5 AC: 9
+    Jitter Beam Projector (+3 to hit/3d8+1, AP 15, Phase 3), Plasma Beam (+3 to hit/3d6+1, AP 10)
+    Spike 3
+    48x
+    Hit Points: 25 Crew: 5/20 Speed: 4 Armor: 5 AC: 6
+     Plasma Beam (+3/3d6+1, AP 10)
+    Spike 2
+    """
+
 
     # position them
     position_ships(arena, ships, (0, 0, 25))

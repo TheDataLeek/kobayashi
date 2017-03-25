@@ -100,7 +100,8 @@ class Ship(metaclass=abc.ABCMeta):
             return
         gun_phase = random.randint(0, self.spike)
         phase_check = (gun_phase == ship.phase) or (dice(1, 6) + weapon.weap_phase > (gun_phase - ship.phase))
-        to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
+        # to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
+        to_hit_check = (dice(1, 20) + weapon.to_hit_mod + ship.AC > 20)
         if phase_check and to_hit_check:
             DR_dmg = min(0, max(0, ship.armor - weapon.armor_pen) - weapon.wdamage)
             if DR_dmg < 0:

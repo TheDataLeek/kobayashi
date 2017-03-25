@@ -39,7 +39,7 @@ class Weapon(metaclass=abc.ABCMeta):
         self.hardpoints = 1
         self.min_class = 0
         self.notes = None
-        self.wrange = 10
+        self.wrange = 1
 
         self.to_hit_mod = 0
 
