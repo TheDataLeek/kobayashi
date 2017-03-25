@@ -5,10 +5,13 @@ from .ship_ai import Level1
 import abc
 import random
 import math
+import string
 
 
 class Ship(metaclass=abc.ABCMeta):
     def __init__(self, **kwargs):
+        self.name = ''.join(random.choice(string.ascii_lowercase)
+                            for _ in range(10))
         self.destroyed = False
         self.team = 1
         self.AI = None
@@ -65,7 +68,7 @@ class Ship(metaclass=abc.ABCMeta):
     def attack(self, arena):
         close_ships, num_within_range = self.list_close_ships(arena)
         if num_within_range == 0:
-            raise NoTargetsAvailable
+            raise NoTargetsAvailable(f'{self.name} has no targets')
         if len(close_ships) > 0:
             ship, distance, weapon, threat = close_ships[0]
             ship.hp -= weapon.wdamage
@@ -86,7 +89,7 @@ class Ship(metaclass=abc.ABCMeta):
         # If given directions, try to move there
         if new_loc is not None:
             if distance(self.coords, new_loc) > self.speed:
-                raise NotEnoughSpeed(f'{distance(self.coords, new_loc)} > {self.speed}')
+                raise NotEnoughSpeed(f'Not enough speed for {self.name}. {distance(self.coords, new_loc)} > {self.speed}')
             else:
                 self._move(arena, new_loc)
         # Otherwise use AI
@@ -98,7 +101,7 @@ class Ship(metaclass=abc.ABCMeta):
 
     def _move(self, arena, loc):
         if arena[loc] is not None:
-            raise ArenaCoordinateOccupied(f'{loc} occupied')
+            raise ArenaCoordinateOccupied(f'Refusing to move {self.name}. {loc} occupied')
         arena[self.coords] = None
         self.coords = loc
         arena[self.coords] = self
@@ -150,13 +153,13 @@ class Ship(metaclass=abc.ABCMeta):
         if self.crew_size < self.crew_max:
             self.pilot = person
         else:
-            raise FullCrewException(f'Capacity is at {self.capacity}.')
+            raise FullCrewException(f'{self.name} capacity is at {self.capacity}.')
 
     def register_gunner(self, person):
         if self.crew_size < self.crew_max:
             self.gunners.append(person)
         else:
-            raise FullCrewException(f'Capacity is at {self.capacity}.')
+            raise FullCrewException(f'{self.name} capacity is at {self.capacity}.')
 
     @property
     def current_free_mass(self):
@@ -180,7 +183,7 @@ class Ship(metaclass=abc.ABCMeta):
             self.weapons.append(weapon)
         else:
             raise NotEnoughSpacePowerMass(
-                    'Refusing to add weapon '
+                    'Refusing to add weapon to {self.name} '
                     f'({new_mass}/{self.max_mass})m '
                     f'({new_power}/{self.max_power})p '
                     f'({new_hardpoints}/{self.max_hardpoints})h')
