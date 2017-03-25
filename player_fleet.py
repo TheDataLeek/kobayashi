@@ -309,7 +309,10 @@ def generate(arena):
             spike=6,
             speed=1,
             crew_max=1000,
-            allies=[2,1]
+            allies=[2,1],
+            max_hardpoints=100,
+            max_power=100,
+            max_mass=100
         )
         ship.register_pilot(generate_pilot(random.randint(1,5)))
         for i in range(20):
@@ -325,7 +328,7 @@ def generate(arena):
 
         ship.register_AI(1)
 
-        ships.append(ships)
+        ships.append(ship)
 
     #Neo Mandate Shantadurga Crusers
     for i in range(6):
@@ -337,6 +340,9 @@ def generate(arena):
         spike=4,
         speed=1,
         crew_max=20,
+        max_hardpoints=100,
+        max_power=100,
+        max_mass=100,
         allies=[2,1]
         )
         ship.register_pilot(generate_pilot(random.randint(1,5)))
@@ -362,6 +368,9 @@ def generate(arena):
         spike=3,
         speed=6,
         crew_max=200,
+            max_hardpoints=100,
+            max_power=100,
+            max_mass=100,
         allies=[2,1]
         )
         ship.register_pilot(generate_pilot(random.randint(1,5)))
@@ -375,7 +384,7 @@ def generate(arena):
 
 
     #Neo Mandate Shantadurga Fighters
-    for i in range(25):
+    for i in range(48):
         ship = Fighter(
         team=4,
         hp=25,
@@ -384,6 +393,9 @@ def generate(arena):
         spike=2,
         speed=4,
         crew_max=200,
+            max_hardpoints=100,
+            max_power=100,
+            max_mass=100,
         allies=[2,1]
         )
         ship.register_pilot(generate_pilot(random.randint(1,5)))
