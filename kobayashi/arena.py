@@ -1,6 +1,7 @@
 from .ships import Fighter
 
 import os
+import inspect
 import numpy as np
 import matplotlib
 matplotlib.rcParams['backend'] = "Qt5Agg"
@@ -30,6 +31,16 @@ class Arena(object):
         else:
             self.arena[key] = value
 
+    def help(self, object=None):
+        if object is not None:
+            return {k: type(v) for k, v in inspect.getmembers(object) if not k.startswith('_')}
+        return {k: type(v) for k, v in inspect.getmembers(self) if not k.startswith('_')}
+
+    def update_fleet_attr(self, team, key, value):
+        for ship in self.ships:
+            if ship.team == team:
+                ship.key = value
+
     def num_ships_left(self):
         shipcount = {}
         for ship in self.ships:
@@ -53,7 +64,7 @@ class Arena(object):
 
     def list_ships(self):
         for ship in self.ships:
-            print(ship.team, ship.coords)
+            print(f'{ship.name}({ship.team} {ship.__class__.__name__}) @ {ship.coords}. {ship.hp}hp')
 
     def tick(self):
         self.framenum += 1

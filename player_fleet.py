@@ -6,14 +6,6 @@ from kobayashi.crew import *
 from kobayashi.generate import *
 
 
-def phoenix():
-    ship = Cruiser()
-    ship.register_weapon(SpinalBeamCannon())
-    ship.register_weapon(FlakEmitterBattery())
-    ship.register_weapon(ChargedParticleCaster())
-    ship.register_weapon(Gravcannon())
-
-
 def generate(arena):
     """
     Fleet 1: Yours
@@ -53,7 +45,8 @@ def generate(arena):
             team=1,
             hp=170,
             armor=23,
-            AC=-1
+            AC=-1,
+            allies=[2]
         )
         ship.register_weapon(SingularityGun())
         ship.register_weapon(SingularityGun())
@@ -79,6 +72,8 @@ def generate(arena):
             speed=2,
             armor=18,
             AC=6,
+            team=2,
+            allies=[1],
             spike=3
         )
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
@@ -98,6 +93,8 @@ def generate(arena):
             speed=6,
             armor=8,
             AC=3,
+            team=2,
+            allies=[1],
             spike=1
         )
         ship.register_pilot(generate_pilot(random.randint(1, 5)))
@@ -116,6 +113,8 @@ def generate(arena):
         armor=15,
         AC=-3,
         spike=6,
+        team=2,
+        allies=[1],
         max_power=15,
         max_hardpoints=10,
         max_mass=10

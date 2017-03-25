@@ -20,6 +20,7 @@ def main():
     list_ships = arena.list_ships
     tickn = arena.tickn
     save = lambda: arena.show(save=True)
+    help = arena.help
 
     embed()
 

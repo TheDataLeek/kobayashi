@@ -45,6 +45,7 @@ class Ship(metaclass=abc.ABCMeta):
         self.AC = 10
         self.spike = 1
         self.phase = 0
+        self.allies = []
 
         self.gunners_used = []
 
@@ -96,15 +97,16 @@ class Ship(metaclass=abc.ABCMeta):
         self.gunners_used.append(gunner)
         if gunner is None:
             return
-        phase_check = (self.phase == ship.phase) or (dice(1, 6) > (self.phase - ship.phase))
+        gun_phase = random.randint(0, self.spike)
+        phase_check = (gun_phase == ship.phase) or (dice(1, 6) + weapon.weap_phase > (gun_phase - ship.phase))
         to_hit_check = (dice(1, 20) + gunner.skillmod + weapon.to_hit_mod + ship.AC - ship.pilot.skillmod > 20)
         if phase_check and to_hit_check:
             DR_dmg = min(0, max(0, ship.armor - weapon.armor_pen) - weapon.wdamage)
             if DR_dmg < 0:
-                print(f'{self.name} attacked {ship.name} for {-DR_dmg}')
+                print(f'{self.name}({self.team} {self.__class__.__name__}) attacked {ship.name} for {-DR_dmg}')
                 ship.hp += DR_dmg
                 if ship.hp <= 0:
-                    print(f'{ship.name} was destroyed')
+                    print(f'{ship.name}({self.team} {self.__class__.__name__}) was destroyed')
                     ship.remove(arena)
 
 
@@ -125,7 +127,7 @@ class Ship(metaclass=abc.ABCMeta):
         # If given directions, try to move there
         if new_loc is not None:
             if distance(self.coords, new_loc) > self.speed:
-                raise NotEnoughSpeed(f'Not enough speed for {self.name}. {distance(self.coords, new_loc)} > {self.speed}')
+                raise NotEnoughSpeed(f'Not enough speed for {self.name}({self.team} {self.__class__.__name__}). {distance(self.coords, new_loc)} > {self.speed}')
             else:
                 self._move(arena, new_loc)
         # Otherwise use AI
@@ -164,8 +166,8 @@ class Ship(metaclass=abc.ABCMeta):
                     break
 
         if arena[loc] is not None:
-            raise ArenaCoordinateOccupied(f'Refusing to move {self.name}. {loc} occupied')
-        print(f'{self.name} moved {self.coords} -> {loc}')
+            raise ArenaCoordinateOccupied(f'Refusing to move {self.name}({self.team} {self.__class__.__name__}). {loc} occupied')
+        print(f'{self.name}({self.team} {self.__class__.__name__}) moved {self.coords} -> {loc}')
         arena[self.coords] = None
         self.coords = loc
         arena[self.coords] = self
@@ -184,7 +186,8 @@ class Ship(metaclass=abc.ABCMeta):
         ships = []
         for coord, ship in arena.arena.items():
             if ((ship.ship_class >= self.ship_class) and  #only target >= ship classes
-                    (ship.team != self.team)):
+                    (ship.team != self.team) and
+                    (ship.team not in self.allies)):
                 new_d = distance(self.coords, ship.coords)
                 if new_d <= d:
                     ships.append((ship, new_d, self.threat_level(ship)))
@@ -204,13 +207,13 @@ class Ship(metaclass=abc.ABCMeta):
         if self.crew_size < self.crew_max:
             self.pilot = person
         else:
-            raise FullCrewException(f'{self.name} capacity is max')
+            raise FullCrewException(f'{self.name}({self.team} {self.__class__.__name__}) capacity is max')
 
     def register_gunner(self, person):
         if self.crew_size < self.crew_max:
             self.gunners.append(person)
         else:
-            raise FullCrewException(f'{self.name} capacity is max')
+            raise FullCrewException(f'{self.name}({self.team} {self.__class__.__name__}) capacity is max')
 
     @property
     def current_free_mass(self):
@@ -234,7 +237,7 @@ class Ship(metaclass=abc.ABCMeta):
             self.weapons.append(weapon)
         else:
             raise NotEnoughSpacePowerMass(
-                    f'Refusing to add weapon to {self.name} '
+                    f'Refusing to add weapon to {self.name}({self.team} {self.__class__.__name__}) '
                     f'({new_mass}/{self.max_mass})m '
                     f'({new_power}/{self.max_power})p '
                     f'({new_hardpoints}/{self.max_hardpoints})h')
