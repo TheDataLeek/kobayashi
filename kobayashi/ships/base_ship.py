@@ -85,7 +85,7 @@ class Ship(metaclass=abc.ABCMeta):
                             print("CANNOT MOVE!")
                             new_loc = self.loc #cannot move so the shipinstance will remain at same position
                             break
-                        for pos in range(0,3):
+                        for pos in range(0,7):
                             collisionFlag = 1
                             if pos == 0:
                                 x = tuple(reductionFactor * i for i in (1,0,0))
@@ -93,7 +93,19 @@ class Ship(metaclass=abc.ABCMeta):
                                 x = tuple(reductionFactor*i for i in (0,1,0))
                             elif pos == 2:
                                 x = tuple(reductionFactor*i for i in (0,0,1))
+                            elif pos == 3:
+                                x = tuple(reductionFactor*i for i in (1,1,0))
+                            elif pos == 4:
+                                x = tuple(reductionFactor*i for i in (1,0,1))
+                            elif pos == 5:
+                                x = tuple(reductionFactor*i for i in (0,1,1))
+                            elif pos == 6:
+                                x = tuple(reductionFactor*i for i in (1,1,1))
                             tempLoc = tuple(map(operator.sub, new_loc, x))
+                            if(distance(new_loc, tempLoc) > self.speed):
+                                collisionFlag == 1
+                                print("Cannot move!")
+                                break
                             for coord in listofCoords:
                                 print("Entering comparison loop")
                                 if tempLoc == coord:
