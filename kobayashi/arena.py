@@ -107,7 +107,9 @@ class Arena(object):
         # plt.axis('off')
 
         if save:
-            plt.savefig(f'./img/arena{self.framenum}.png')
+            if not os.path.isdir('img'):
+                os.mkdir('img')
+            plt.savefig(f'img/arena{self.framenum}.png')
         else:
             plt.show()
 
