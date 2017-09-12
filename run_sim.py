@@ -26,7 +26,9 @@ def main():
     save = lambda: save_arena(arena)
 
     def load():
-        nonlocal arena
+        nonlocal arena  # this doesn't work, even though it should....
+        # for some reason nonlocal arena is overwriting the higher scope version,
+        # but when the function terminates the higher scope (old) version has not changed...
         arena = load_arena()
         return arena
 
