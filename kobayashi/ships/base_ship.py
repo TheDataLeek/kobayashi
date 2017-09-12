@@ -68,7 +68,7 @@ class Ship(metaclass=abc.ABCMeta):
     def register_AI(self, level):
         if level == 0:
             self.AI = None
-        if level == 1:
+        elif level == 1:
             self.AI = Level1(self)
 
     def remove(self, arena):

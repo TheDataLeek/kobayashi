@@ -50,8 +50,6 @@ def position_ships(arena, ships, center):
         arena.ships.append(ship)
 
 
-
-
 def generate_ship(shiptype, team):
     # New ship instance
     ship = shiptype()

@@ -1,13 +1,16 @@
 from .ships import Fighter
 
+import sys
 import os
 from tqdm import tqdm
 import inspect
 import numpy as np
-import matplotlib
-matplotlib.rcParams['backend'] = "Qt5Agg"
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+
+if not 'py.test' in sys.argv[0]:
+    import matplotlib
+    matplotlib.rcParams['backend'] = "Qt5Agg"
+    import matplotlib.pyplot as plt
+    from mpl_toolkits.mplot3d import Axes3D
 
 
 class Arena(object):
