@@ -22,8 +22,8 @@ def main():
     show = arena.show
     list_ships = arena.list_ships
     tickn = arena.tickn
-    help = arena.help
     save = lambda: save_arena(arena)
+
 
     def load():
         nonlocal arena  # this doesn't work, even though it should....
@@ -31,6 +31,16 @@ def main():
         # but when the function terminates the higher scope (old) version has not changed...
         arena = load_arena()
         return arena
+
+    def help(obj=None):
+        if obj is not None:
+            return arena.help(obj)
+        else:
+            return {
+                **arena.help(),
+                'save': save,
+                'load': load
+            }
 
     embed()
 
