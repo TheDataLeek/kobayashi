@@ -9,20 +9,20 @@ To run the sim, simply type `./run_sim.py` and you'll be dropped into an
 interactive IPython terminal that has all of the game objects loaded.
 
 ```bash
-┬─[william@fillory:~/Dropbox/Projects/kobayashi]─[10:24:29 AM]
+┬─[zoe@fillory:~/Dropbox/Projects/kobayashi]─[10:24:29 AM]
 ╰─>$ ./run_sim.py 
 Python 3.6.2 (default, Jul 20 2017, 03:52:27) 
 Type 'copyright', 'credits' or 'license' for more information
 IPython 6.1.0 -- An enhanced Interactive Python. Type '?' for help.
 
-┬─[william@fillory:.../Dropbox/Projects/kobayashi]-[Tue Sep 12 10:24:47 2017]
+┬─[zoe@fillory:.../Dropbox/Projects/kobayashi]-[Tue Sep 12 10:24:47 2017]
 ╰─>$ 
 ```
 
 Type `help()` to be shown the commands available to you.
 
 ```python
-┬─[william@fillory:.../Dropbox/Projects/kobayashi]-[Tue Sep 12 10:35:12 2017]
+┬─[zoe@fillory:.../Dropbox/Projects/kobayashi]-[Tue Sep 12 10:35:12 2017]
 ╰─>$ help()
 Out[1]:
 {'arena': dict,
