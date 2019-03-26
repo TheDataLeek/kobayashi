@@ -8,7 +8,7 @@ import numpy as np
 
 try:
     import matplotlib
-    matplotlib.rcParams['backend'] = "Qt5Agg"
+    # matplotlib.rcParams['backend'] = "Qt5Agg"
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
 except ImportError as e:
@@ -103,7 +103,7 @@ class Arena(object):
                 points.append(ship.coords)
                 colors.append(ship.team)
                 sizes.append((ship.ship_class + 1) * 100)
-        ax.scatter(*np.array(points).T, c=colors, alpha=0.5, s=sizes, cmap=plt.get_cmap('Vega10'))
+        ax.scatter(*np.array(points).T, c=colors, alpha=0.5, s=sizes, cmap=plt.get_cmap('tab10'))
 
         # ax.set_xlim(-1, 30)
         # ax.set_ylim(-1, 30)
