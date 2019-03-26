@@ -11,3 +11,5 @@ class ArenaCoordinateOccupied(Exception): pass
 class OutOfAmmo(Exception): pass
 
 class NoGunners(Exception): pass
+
+class InvalidJSON(Exception): pass

@@ -1,0 +1,16 @@
+{
+    "center": [0, 0, 0],
+    "ships": [
+        {
+            "name": "Da Bes Ship Evar",
+            "base": "Fighter",
+            "AC": 10000,
+            "count": 10
+        },
+        {
+            "name": "Da Wors Ship Evar",
+            "base": "Fighter",
+            "AC": -10000
+        }
+    ]
+}

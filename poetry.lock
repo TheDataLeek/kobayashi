@@ -1,0 +1,269 @@
+[[package]]
+category = "main"
+description = "Disable App Nap on OS X 10.9"
+marker = "sys_platform == \"darwin\""
+name = "appnope"
+optional = false
+python-versions = "*"
+version = "0.1.0"
+
+[[package]]
+category = "main"
+description = "Specifications for callback functions passed in to an API"
+name = "backcall"
+optional = false
+python-versions = "*"
+version = "0.1.0"
+
+[[package]]
+category = "main"
+description = "Cross-platform colored terminal text."
+marker = "sys_platform == \"win32\""
+name = "colorama"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.4.1"
+
+[[package]]
+category = "main"
+description = "Composable style cycles"
+name = "cycler"
+optional = false
+python-versions = "*"
+version = "0.10.0"
+
+[package.dependencies]
+six = "*"
+
+[[package]]
+category = "main"
+description = "Better living through Python with decorators"
+name = "decorator"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.4.0"
+
+[[package]]
+category = "main"
+description = "IPython: Productive Interactive Computing"
+name = "ipython"
+optional = false
+python-versions = ">=3.5"
+version = "7.4.0"
+
+[package.dependencies]
+appnope = "*"
+backcall = "*"
+colorama = "*"
+decorator = "*"
+jedi = ">=0.10"
+pexpect = "*"
+pickleshare = "*"
+prompt-toolkit = ">=2.0.0,<2.1.0"
+pygments = "*"
+setuptools = ">=18.5"
+traitlets = ">=4.2"
+
+[[package]]
+category = "main"
+description = "Vestigial utilities from IPython"
+name = "ipython-genutils"
+optional = false
+python-versions = "*"
+version = "0.2.0"
+
+[[package]]
+category = "main"
+description = "An autocompletion tool for Python that can be used for text editors."
+name = "jedi"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*, !=3.3.*"
+version = "0.13.3"
+
+[package.dependencies]
+parso = ">=0.3.0"
+
+[[package]]
+category = "main"
+description = "A fast implementation of the Cassowary constraint solver"
+name = "kiwisolver"
+optional = false
+python-versions = "*"
+version = "1.0.1"
+
+[package.dependencies]
+setuptools = "*"
+
+[[package]]
+category = "main"
+description = "Python plotting package"
+name = "matplotlib"
+optional = false
+python-versions = ">=3.5"
+version = "3.0.3"
+
+[package.dependencies]
+cycler = ">=0.10"
+kiwisolver = ">=1.0.1"
+numpy = ">=1.10.0"
+pyparsing = ">=2.0.1,<2.0.4 || >2.0.4,<2.1.2 || >2.1.2,<2.1.6 || >2.1.6"
+python-dateutil = ">=2.1"
+
+[[package]]
+category = "main"
+description = "NumPy is the fundamental package for array computing with Python."
+name = "numpy"
+optional = false
+python-versions = ">=2.7,!=3.0.*,!=3.1.*,!=3.2.*,!=3.3.*"
+version = "1.16.2"
+
+[[package]]
+category = "main"
+description = "A Python Parser"
+name = "parso"
+optional = false
+python-versions = "*"
+version = "0.3.4"
+
+[[package]]
+category = "main"
+description = "Pexpect allows easy control of interactive console applications."
+marker = "sys_platform != \"win32\""
+name = "pexpect"
+optional = false
+python-versions = "*"
+version = "4.6.0"
+
+[package.dependencies]
+ptyprocess = ">=0.5"
+
+[[package]]
+category = "main"
+description = "Tiny 'shelve'-like database with concurrency support"
+name = "pickleshare"
+optional = false
+python-versions = "*"
+version = "0.7.5"
+
+[[package]]
+category = "main"
+description = "Library for building powerful interactive command lines in Python"
+name = "prompt-toolkit"
+optional = false
+python-versions = "*"
+version = "2.0.9"
+
+[package.dependencies]
+six = ">=1.9.0"
+wcwidth = "*"
+
+[[package]]
+category = "main"
+description = "Run a subprocess in a pseudo terminal"
+marker = "sys_platform != \"win32\""
+name = "ptyprocess"
+optional = false
+python-versions = "*"
+version = "0.6.0"
+
+[[package]]
+category = "main"
+description = "Pygments is a syntax highlighting package written in Python."
+name = "pygments"
+optional = false
+python-versions = "*"
+version = "2.3.1"
+
+[[package]]
+category = "main"
+description = "Python parsing module"
+name = "pyparsing"
+optional = false
+python-versions = "*"
+version = "2.3.1"
+
+[[package]]
+category = "main"
+description = "Extensions to the standard Python datetime module"
+name = "python-dateutil"
+optional = false
+python-versions = ">=2.7, !=3.0.*, !=3.1.*, !=3.2.*"
+version = "2.8.0"
+
+[package.dependencies]
+six = ">=1.5"
+
+[[package]]
+category = "main"
+description = "Python 2 and 3 compatibility utilities"
+name = "six"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "1.12.0"
+
+[[package]]
+category = "main"
+description = "Fast, Extensible Progress Meter"
+name = "tqdm"
+optional = false
+python-versions = ">=2.6, !=3.0.*, !=3.1.*"
+version = "4.31.1"
+
+[[package]]
+category = "main"
+description = "Traitlets Python config system"
+name = "traitlets"
+optional = false
+python-versions = "*"
+version = "4.3.2"
+
+[package.dependencies]
+decorator = "*"
+ipython-genutils = "*"
+six = "*"
+
+[[package]]
+category = "main"
+description = "Measures number of Terminal column cells of wide-character codes"
+name = "wcwidth"
+optional = false
+python-versions = "*"
+version = "0.1.7"
+
+[[package]]
+category = "main"
+description = "Module for decorators, wrappers and monkey patching."
+name = "wrapt"
+optional = false
+python-versions = "*"
+version = "1.11.1"
+
+[metadata]
+content-hash = "b054e558523d6a5d8829e51bdb25ac89fe85680c2feda40874188e4b4488e67d"
+python-versions = "^3.7"
+
+[metadata.hashes]
+appnope = ["5b26757dc6f79a3b7dc9fab95359328d5747fcb2409d331ea66d0272b90ab2a0", "8b995ffe925347a2138d7ac0fe77155e4311a0ea6d6da4f5128fe4b3cbe5ed71"]
+backcall = ["38ecd85be2c1e78f77fd91700c76e14667dc21e2713b63876c0eb901196e01e4", "bbbf4b1e5cd2bdb08f915895b51081c041bac22394fdfcfdfbe9f14b77c08bf2"]
+colorama = ["05eed71e2e327246ad6b38c540c4a3117230b19679b875190486ddd2d721422d", "f8ac84de7840f5b9c4e3347b3c1eaa50f7e49c2b07596221daec5edaabbd7c48"]
+cycler = ["1d8a5ae1ff6c5cf9b93e8811e581232ad8920aeec647c37316ceac982b08cb2d", "cd7b2d1018258d7247a71425e9f26463dfb444d411c39569972f4ce586b0c9d8"]
+decorator = ["86156361c50488b84a3f148056ea716ca587df2f0de1d34750d35c21312725de", "f069f3a01830ca754ba5258fde2278454a0b5b79e0d7f5c13b3b97e57d4acff6"]
+ipython = ["b038baa489c38f6d853a3cfc4c635b0cda66f2864d136fe8f40c1a6e334e2a6b", "f5102c1cd67e399ec8ea66bcebe6e3968ea25a8977e53f012963e5affeb1fe38"]
+ipython-genutils = ["72dd37233799e619666c9f639a9da83c34013a73e8bbc79a7a6348d93c61fab8", "eb2e116e75ecef9d4d228fdc66af54269afa26ab4463042e33785b887c628ba8"]
+jedi = ["2bb0603e3506f708e792c7f4ad8fc2a7a9d9c2d292a358fbbd58da531695595b", "2c6bcd9545c7d6440951b12b44d373479bf18123a401a52025cf98563fbd826c"]
+kiwisolver = ["0ee4ed8b3ae8f5f712b0aa9ebd2858b5b232f1b9a96b0943dceb34df2a223bc3", "0f7f532f3c94e99545a29f4c3f05637f4d2713e7fd91b4dd8abfc18340b86cd5", "1a078f5dd7e99317098f0e0d490257fd0349d79363e8c923d5bb76428f318421", "1aa0b55a0eb1bd3fa82e704f44fb8f16e26702af1a073cc5030eea399e617b56", "2874060b91e131ceeff00574b7c2140749c9355817a4ed498e82a4ffa308ecbc", "379d97783ba8d2934d52221c833407f20ca287b36d949b4bba6c75274bcf6363", "3b791ddf2aefc56382aadc26ea5b352e86a2921e4e85c31c1f770f527eb06ce4", "4329008a167fac233e398e8a600d1b91539dc33c5a3eadee84c0d4b04d4494fa", "45813e0873bbb679334a161b28cb9606d9665e70561fd6caa8863e279b5e464b", "53a5b27e6b5717bdc0125338a822605084054c80f382051fb945d2c0e6899a20", "574f24b9805cb1c72d02b9f7749aa0cc0b81aa82571be5201aa1453190390ae5", "66f82819ff47fa67a11540da96966fb9245504b7f496034f534b81cacf333861", "79e5fe3ccd5144ae80777e12973027bd2f4f5e3ae8eb286cabe787bed9780138", "83410258eb886f3456714eea4d4304db3a1fc8624623fc3f38a487ab36c0f653", "8b6a7b596ce1d2a6d93c3562f1178ebd3b7bb445b3b0dd33b09f9255e312a965", "9576cb63897fbfa69df60f994082c3f4b8e6adb49cccb60efb2a80a208e6f996", "95a25d9f3449046ecbe9065be8f8380c03c56081bc5d41fe0fb964aaa30b2195", "a424f048bebc4476620e77f3e4d1f282920cef9bc376ba16d0b8fe97eec87cde", "aaec1cfd94f4f3e9a25e144d5b0ed1eb8a9596ec36d7318a504d813412563a85", "acb673eecbae089ea3be3dcf75bfe45fc8d4dcdc951e27d8691887963cf421c7", "b15bc8d2c2848a4a7c04f76c9b3dc3561e95d4dabc6b4f24bfabe5fd81a0b14f", "b1c240d565e977d80c0083404c01e4d59c5772c977fae2c483f100567f50847b", "c595693de998461bcd49b8d20568c8870b3209b8ea323b2a7b0ea86d85864694", "ce3be5d520b4d2c3e5eeb4cd2ef62b9b9ab8ac6b6fedbaa0e39cdb6f50644278", "e0f910f84b35c36a3513b96d816e6442ae138862257ae18a0019d2fc67b041dc", "ea36e19ac0a483eea239320aef0bd40702404ff8c7e42179a2d9d36c5afcb55c", "efabbcd4f406b532206b8801058c8bab9e79645b9880329253ae3322b7b02cd5", "f923406e6b32c86309261b8195e24e18b6a8801df0cfc7814ac44017bfcb3939"]
+matplotlib = ["1ae6549976b6ceb6ee426272a28c0fc9715b3e3669694d560c8f661c5b39e2c5", "4d4250bf508dd07cca3b43888097f873cadb66eec6ac63dbbfb798798ec07af2", "53af2e01d7f1700ed2b64a9091bc865360c9c4032f625451c4589a826854c787", "63e498067d32d627111cd1162cae1621f1221f9d4c6a9745dd7233f29de581b6", "7169a34971e398dd58e87e173f97366fd88a3fa80852704530433eb224a8ca57", "91c54d6bb9eeaaff965656c5ea6cbdcbf780bad8462ac99b30b451548194746f", "aeef177647bb3fccfe09065481989d7dfc5ac59e9367d6a00a3481062cf651e4", "cf8ae10559a78aee0409ede1e9d4fda03895433eeafe609dd9ed67e45f552db0", "d51d0889d1c4d51c51a9822265c0494ea3e70a52bdd88358e0863daca46fa23a", "de5ccd3500247f85fe4f9fad90f80a8bd397e4f110a4c33fabf95f07403e8372", "e1d33589e32f482d0a7d1957bf473d43341115d40d33f578dad44432e47df7b7", "e8d1939262aa6b36d0c51f50a50a43a04b9618d20db31e6c0192b1463067aeef", "e918d51b1fda82a65fdf52d2f3914b2246481cc2a9cd10e223e6be6078916ff3"]
+numpy = ["1980f8d84548d74921685f68096911585fee393975f53797614b34d4f409b6da", "22752cd809272671b273bb86df0f505f505a12368a3a5fc0aa811c7ece4dfd5c", "23cc40313036cffd5d1873ef3ce2e949bdee0646c5d6f375bf7ee4f368db2511", "2b0b118ff547fecabc247a2668f48f48b3b1f7d63676ebc5be7352a5fd9e85a5", "3a0bd1edf64f6a911427b608a894111f9fcdb25284f724016f34a84c9a3a6ea9", "3f25f6c7b0d000017e5ac55977a3999b0b1a74491eacb3c1aa716f0e01f6dcd1", "4061c79ac2230594a7419151028e808239450e676c39e58302ad296232e3c2e8", "560ceaa24f971ab37dede7ba030fc5d8fa173305d94365f814d9523ffd5d5916", "62be044cd58da2a947b7e7b2252a10b42920df9520fc3d39f5c4c70d5460b8ba", "6c692e3879dde0b67a9dc78f9bfb6f61c666b4562fd8619632d7043fb5b691b0", "6f65e37b5a331df950ef6ff03bd4136b3c0bbcf44d4b8e99135d68a537711b5a", "7a78cc4ddb253a55971115f8320a7ce28fd23a065fc33166d601f51760eecfa9", "80a41edf64a3626e729a62df7dd278474fc1726836552b67a8c6396fd7e86760", "893f4d75255f25a7b8516feb5766c6b63c54780323b9bd4bc51cdd7efc943c73", "972ea92f9c1b54cc1c1a3d8508e326c0114aaf0f34996772a30f3f52b73b942f", "9f1d4865436f794accdabadc57a8395bd3faa755449b4f65b88b7df65ae05f89", "9f4cd7832b35e736b739be03b55875706c8c3e5fe334a06210f1a61e5c2c8ca5", "adab43bf657488300d3aeeb8030d7f024fcc86e3a9b8848741ea2ea903e56610", "bd2834d496ba9b1bdda3a6cf3de4dc0d4a0e7be306335940402ec95132ad063d", "d20c0360940f30003a23c0adae2fe50a0a04f3e48dc05c298493b51fd6280197", "d3b3ed87061d2314ff3659bb73896e622252da52558f2380f12c421fbdee3d89", "dc235bf29a406dfda5790d01b998a1c01d7d37f449128c0b1b7d1c89a84fae8b", "fb3c83554f39f48f3fa3123b9c24aecf681b1c289f9334f8215c1d3c8e2f6e5b"]
+parso = ["4580328ae3f548b358f4901e38c0578229186835f0fa0846e47369796dd5bcc9", "68406ebd7eafe17f8e40e15a84b56848eccbf27d7c1feb89e93d8fca395706db"]
+pexpect = ["2a8e88259839571d1251d278476f3eec5db26deb73a70be5ed5dc5435e418aba", "3fbd41d4caf27fa4a377bfd16fef87271099463e6fa73e92a52f92dfee5d425b"]
+pickleshare = ["87683d47965c1da65cdacaf31c8441d12b8044cdec9aca500cd78fc2c683afca", "9649af414d74d4df115d5d718f82acb59c9d418196b7b4290ed47a12ce62df56"]
+prompt-toolkit = ["11adf3389a996a6d45cc277580d0d53e8a5afd281d0c9ec71b28e6f121463780", "2519ad1d8038fd5fc8e770362237ad0364d16a7650fb5724af6997ed5515e3c1", "977c6583ae813a37dc1c2e1b715892461fcbdaa57f6fc62f33a528c4886c8f55"]
+ptyprocess = ["923f299cc5ad920c68f2bc0bc98b75b9f838b93b599941a6b63ddbc2476394c0", "d7cc528d76e76342423ca640335bd3633420dc1366f258cb31d05e865ef5ca1f"]
+pygments = ["5ffada19f6203563680669ee7f53b64dabbeb100eb51b61996085e99c03b284a", "e8218dd399a61674745138520d0d4cf2621d7e032439341bc3f647bff125818d"]
+pyparsing = ["66c9268862641abcac4a96ba74506e594c884e3f57690a696d21ad8210ed667a", "f6c5ef0d7480ad048c054c37632c67fca55299990fff127850181659eea33fc3"]
+python-dateutil = ["7e6584c74aeed623791615e26efd690f29817a27c73085b78e4bad02493df2fb", "c89805f6f4d64db21ed966fda138f8a5ed7a4fdbc1a8ee329ce1b74e3c74da9e"]
+six = ["3350809f0555b11f552448330d0b52d5f24c91a322ea4a15ef22629740f3761c", "d16a0141ec1a18405cd4ce8b4613101da75da0e9a7aec5bdd4fa804d0e0eba73"]
+tqdm = ["d385c95361699e5cf7622485d9b9eae2d4864b21cd5a2374a9c381ffed701021", "e22977e3ebe961f72362f6ddfb9197cc531c9737aaf5f607ef09740c849ecd05"]
+traitlets = ["9c4bd2d267b7153df9152698efb1050a5d84982d3384a37b2c1f7723ba3e7835", "c6cb5e6f57c5a9bdaa40fa71ce7b4af30298fbab9ece9815b5d995ab6217c7d9"]
+wcwidth = ["3df37372226d6e63e1b1e1eda15c594bca98a22d33a23832a90998faa96bc65e", "f4ebe71925af7b40a864553f761ed559b43544f8f71746c2d756c7fe788ade7c"]
+wrapt = ["4aea003270831cceb8a90ff27c4031da6ead7ec1886023b80ce0dfe0adf61533"]

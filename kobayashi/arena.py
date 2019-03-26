@@ -6,11 +6,13 @@ from tqdm import tqdm
 import inspect
 import numpy as np
 
-if not 'py.test' in sys.argv[0]:
+try:
     import matplotlib
     matplotlib.rcParams['backend'] = "Qt5Agg"
     import matplotlib.pyplot as plt
     from mpl_toolkits.mplot3d import Axes3D
+except ImportError as e:
+    print(f'Visualization unavailable: {e}')
 
 
 class Arena(object):

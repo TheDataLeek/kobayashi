@@ -1,22 +1,51 @@
 #!/usr/bin/env python3.6
 
+# stdlib
 import sys
 import os
-from datetime import datetime as dt
 import pickle
+import argparse
+import inspect
+
+# 3rd party
+from datetime import datetime as dt
 from IPython import embed
 
+# local
 import kobayashi as kob
-
-import player_fleet
-import enemy_fleet
 
 
 def main():
+    args = get_args()
+
+    if args.ships or args.weapons:
+        if args.ships:
+            for name, member_type in inspect.getmembers(kob.ships):
+                try:
+                    if issubclass(member_type, kob.ships.Ship):
+                        print(name)
+                except:
+                    pass
+        if args.weapons:
+            for name, member_type in inspect.getmembers(kob.weapons):
+                try:
+                    if issubclass(member_type, kob.weapons.Weapon):
+                        print(name)
+                except:
+                    pass
+    else:
+        run_interactive(args.fleets, args.test_fleet)
+
+def run_interactive(fleets, test_fleet):
     arena = kob.arena.Arena()
 
-    player_fleet.generate(arena)
-    enemy_fleet.generate(arena)
+    if fleets is not None:
+        imported_fleets = kob.fleets.get_fleet(fleets)
+        for ships, center in imported_fleets:
+            kob.generate.position_ships(arena, ships, center)
+
+    if test_fleet:
+        return
 
     tick = arena.tick
     show = arena.show
@@ -77,6 +106,18 @@ def load_arena():
         arena = pickle.load(savefile)
 
     return arena
+
+def get_args():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('-s', '--ships', action='store_true', default=False,
+                        help=('List available ship classes'))
+    parser.add_argument('-w', '--weapons', action='store_true', default=False,
+                        help=('List available weapon classes'))
+    parser.add_argument('-tf', '--test-fleet', action='store_true', default=False,
+                        help=('Import fleet and quit'))
+    parser.add_argument('-f', '--fleets', nargs='*', help='Fleets to import')
+    args = parser.parse_args()
+    return args
 
 
 if __name__ == '__main__':

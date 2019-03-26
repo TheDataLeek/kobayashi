@@ -1,12 +1,10 @@
 import random
 
-from kobayashi.ships import *
-from kobayashi.weapons import *
-from kobayashi.crew import *
-from kobayashi.generate import *
+import kobayashi as kob
 
 
-def generate(arena):
+# player fleet
+def generate_player_fleet(arena):
     """
     Fleet 1: Yours
     2x Monstrance-class Battleship
@@ -44,7 +42,7 @@ def generate(arena):
 
     # Phoenix Ships
     for i in range(2):
-        ship = Battleship(
+        ship = kob.ships.Battleship(
             team=1,
             hp=170,
             armor=28,
@@ -52,14 +50,14 @@ def generate(arena):
             allies=[2, 4],
             speed=3
         )
-        ship.register_weapon(SingularityGun(wrange=16))
-        ship.register_weapon(SingularityGun(wrange=16))
-        ship.register_weapon(LightningChargeMantle(wrange=16))
-        ship.register_weapon(SpikeInversionProjector(wrange=16))
+        ship.register_weapon(kob.weapons.SingularityGun(wrange=16))
+        ship.register_weapon(kob.weapons.SingularityGun(wrange=16))
+        ship.register_weapon(kob.weapons.LightningChargeMantle(wrange=16))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=16))
 
-        ship.register_pilot(generate_pilot(random.randint(1, 5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1, 5)))
         for i in range(10):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
         ship.player_ship = True
         ship.register_AI(1)
@@ -67,7 +65,7 @@ def generate(arena):
         ships.append(ship)
 
     # position them
-    position_ships(arena, ships, (10, 10, 0))
+    kob.generate.position_ships(arena, ships, (10, 10, 0))
 
     ships = []
 
@@ -77,7 +75,7 @@ def generate(arena):
     Mag Spike Array+5/2d6+5 Flak, Phase 1, Ammo 10
     Grav Eddy Displacer Hardened Polyceramic Overlay
     """
-    ship = Frigate(
+    ship = kob.ships.Frigate(
         team=5,
         hp=20,
         speed=10,
@@ -86,10 +84,10 @@ def generate(arena):
         spike=3
     )
 
-    ship.register_pilot(generate_pilot(5))
+    ship.register_pilot(kob.generate.generate_pilot(5))
     for i in range(10):
-        ship.register_gunner(generate_gunner(5))
-    ship.register_weapon(MagSpikeArray(
+        ship.register_gunner(kob.generate.generate_gunner(5))
+    ship.register_weapon(kob.weapons.MagSpikeArray(
         to_hit_mod=5,
         extra_dmg=5,
         flak=True,
@@ -106,7 +104,7 @@ def generate(arena):
 
     ships.append(ship)
 
-    position_ships(arena, ships, (100, 100, 100))
+    kob.generate.position_ships(arena, ships, (100, 100, 100))
 
     ships = []
 
@@ -118,7 +116,7 @@ def generate(arena):
     (+4 to hit/2d6+1, AP 10, Cloud, Phase 2), Umbrella Barrage System (+4 to hit/Special)
     Armor: Regenerating Shield (10) Adapting Shield(Hits by same weapon lose 1 damage), Hardened Polyceramic Overlay
     """
-    ship = Battleship(
+    ship = kob.ships.Battleship(
         hp=130,
         shields=100,
         speed=1,
@@ -128,10 +126,10 @@ def generate(arena):
         allies=[1, 4]
     )
 
-    ship.register_pilot(generate_pilot(3))
+    ship.register_pilot(kob.generate.generate_pilot(3))
     for _ in range(10):
-        ship.register_gunner(generate_gunner(3))
-    ship.register_weapon(SunshineField(
+        ship.register_gunner(kob.generate.generate_gunner(3))
+    ship.register_weapon(kob.weapons.SunshineField(
         to_hit_mod=4,
         extra_dmg=1,
         armor_pen=10,
@@ -139,20 +137,20 @@ def generate(arena):
         wrange=8,
         phase=2
     ))
-    ship.register_weapon(Gravcannon(
+    ship.register_weapon(kob.weapons.Gravcannon(
         to_hit_mod=4,
         extra_dmg=1,
         wrange=8,
         armor_pen=20
     ))
-    ship.register_weapon(SpikeInversionProjector(
+    ship.register_weapon(kob.weapons.SpikeInversionProjector(
         to_hit_mod=4,
         extra_dmg=1,
         wrange=8,
         armor_pen=15,
         phase=2
     ))
-    ship.register_weapon(SpikeInversionProjector(
+    ship.register_weapon(kob.weapons.SpikeInversionProjector(
         to_hit_mod=4,
         extra_dmg=1,
         armor_pen=15,
@@ -166,7 +164,7 @@ def generate(arena):
 
     # Borg Cruisers
     for i in range(4):
-        ship = Cruiser(
+        ship = kob.ships.Cruiser(
             hp=70,
             crew_max=200,
             speed=2,
@@ -176,14 +174,14 @@ def generate(arena):
             allies=[1, 4],
             spike=3,
         )
-        ship.register_pilot(generate_pilot(random.randint(1, 5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1, 5)))
         for _ in range(10):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon(wrange=8))
-        ship.register_weapon(Gravcannon(wrange=8))
-        ship.register_weapon(SmartCloud(wrange=8))
-        ship.register_weapon(PlasmaBeam(wrange=8))
+        ship.register_weapon(kob.weapons.Gravcannon(wrange=8))
+        ship.register_weapon(kob.weapons.Gravcannon(wrange=8))
+        ship.register_weapon(kob.weapons.SmartCloud(wrange=8))
+        ship.register_weapon(kob.weapons.PlasmaBeam(wrange=8))
 
         ship.register_AI(1)
 
@@ -198,7 +196,7 @@ def generate(arena):
     Fittings Spike Drive-3
     """
     for i in range(2):
-        ship = Frigate(
+        ship = kob.ships.Frigate(
             team=2,
             allies=[1, 4],
             hp=45,
@@ -208,23 +206,23 @@ def generate(arena):
             spike=3,
             max_power=40
         )
-        ship.register_pilot(generate_pilot(3))
+        ship.register_pilot(kob.generate.generate_pilot(3))
         for _ in range(10):
-            ship.register_gunner(generate_gunner(3))
-        ship.register_weapon(PlasmaBeam(
+            ship.register_gunner(kob.generate.generate_gunner(3))
+        ship.register_weapon(kob.weapons.PlasmaBeam(
             to_hit_mod=8,
             extra_dmg=3,
             wrange=2,
             armor_pen=10
         ))
-        ship.register_weapon(TorpedoLauncher(
+        ship.register_weapon(kob.weapons.TorpedoLauncher(
             to_hit_mod=8,
             wrange=2,
             extra_dmg=3,
             armor_pen=20,
             ammo=4
         ))
-        ship.register_weapon(TorpedoLauncher(
+        ship.register_weapon(kob.weapons.TorpedoLauncher(
             to_hit_mod=8,
             extra_dmg=3,
             wrange=2,
@@ -239,7 +237,7 @@ def generate(arena):
 
     # Borg fighters
     for i in range(130):
-        ship = Fighter(
+        ship = kob.ships.Fighter(
             hp=16,
             crew_max=6,
             speed=6,
@@ -249,16 +247,16 @@ def generate(arena):
             allies=[1,4],
             spike=1
         )
-        ship.register_pilot(generate_pilot(random.randint(1, 5)))
-        ship.register_gunner(generate_gunner(random.randint(1, 5)))
-        ship.register_weapon(FractalImpactCharges())
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1, 5)))
+        ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
+        ship.register_weapon(kob.weapons.FractalImpactCharges())
 
         ship.register_AI(1)
 
         ships.append(ship)
 
     # Captain Bomber
-    ship = Fighter(
+    ship = kob.ships.Fighter(
         hp=25,
         crew_max=2,
         speed=10,
@@ -271,18 +269,18 @@ def generate(arena):
         max_hardpoints=10,
         max_mass=10
     )
-    ship.register_pilot(generate_pilot(10))
-    ship.register_gunner(generate_gunner(10))
+    ship.register_pilot(kob.generate.generate_pilot(10))
+    ship.register_gunner(kob.generate.generate_gunner(10))
 
-    ship.register_weapon(FractalImpactCharges())
-    ship.register_weapon(FractalImpactCharges())
-    ship.register_weapon(FractalImpactCharges())
+    ship.register_weapon(kob.weapons.FractalImpactCharges())
+    ship.register_weapon(kob.weapons.FractalImpactCharges())
+    ship.register_weapon(kob.weapons.FractalImpactCharges())
 
     ship.register_AI(1)
 
     ships.append(ship)
 
-    position_ships(arena, ships, (0, 0, 0))
+    kob.generate.position_ships(arena, ships, (0, 0, 0))
 
     ships = []
 
@@ -311,7 +309,7 @@ def generate(arena):
     """
     #Capital Ships for Neo Mandate.
     for i in range(3):
-        ship = Cruiser(
+        ship = kob.ships.Cruiser(
             team=4,
             hp=80,
             armor=20+5,
@@ -324,17 +322,17 @@ def generate(arena):
             max_power=100,
             max_mass=100
         )
-        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1,5)))
         for i in range(20):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon(wrange=16))
-        ship.register_weapon(MassCannon(wrange=16))
-        ship.register_weapon(MassCannon(wrange=16))
-        ship.register_weapon(SpikeInversionProjector(wrange=16))
-        ship.register_weapon(SpikeInversionProjector(wrange=16))
-        ship.register_weapon(SunshineField(wrange=16))
-        ship.register_weapon(UmbrellaBarrageSystem(wrange=16))
+        ship.register_weapon(kob.weapons.Gravcannon(wrange=16))
+        ship.register_weapon(kob.weapons.MassCannon(wrange=16))
+        ship.register_weapon(kob.weapons.MassCannon(wrange=16))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=16))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=16))
+        ship.register_weapon(kob.weapons.SunshineField(wrange=16))
+        ship.register_weapon(kob.weapons.UmbrellaBarrageSystem(wrange=16))
 
         ship.register_AI(1)
 
@@ -342,7 +340,7 @@ def generate(arena):
 
     #Neo Mandate Shantadurga Crusers
     for i in range(6):
-        ship = Cruiser(
+        ship = kob.ships.Cruiser(
         team=4,
         hp=80,
         armor=15+5,
@@ -355,22 +353,22 @@ def generate(arena):
         max_mass=100,
         allies=[2,1]
         )
-        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1,5)))
         for i in range(10):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(Gravcannon(wrange=8))
-        ship.register_weapon(SpikeInversionProjector(wrange=8))
-        ship.register_weapon(SpikeInversionProjector(wrange=8))
-        ship.register_weapon(SpikeInversionProjector(wrange=8))
-        ship.register_weapon(SmartCloud(wrange=8))
+        ship.register_weapon(kob.weapons.Gravcannon(wrange=8))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=8))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=8))
+        ship.register_weapon(kob.weapons.SpikeInversionProjector(wrange=8))
+        ship.register_weapon(kob.weapons.SmartCloud(wrange=8))
 
         ship.register_AI(1)
         ships.append(ship)
 
     #Neo Mandate Shantadurga Frigates
     for i in range(12):
-        ship = Frigate(
+        ship = kob.ships.Frigate(
         team=4,
         hp=60,
         armor=5,
@@ -383,19 +381,19 @@ def generate(arena):
             max_mass=100,
         allies=[2,1]
         )
-        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1,5)))
         for i in range(10):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(JitterBeamProjector(wrange=2))
-        ship.register_weapon(PlasmaBeam(wrange=2))
+        ship.register_weapon(kob.weapons.JitterBeamProjector(wrange=2))
+        ship.register_weapon(kob.weapons.PlasmaBeam(wrange=2))
         ship.register_AI(1)
         ships.append(ship)
 
 
     #Neo Mandate Shantadurga Fighters
     for i in range(48):
-        ship = Fighter(
+        ship = kob.ships.Fighter(
         team=4,
         hp=25,
         armor=5,
@@ -408,14 +406,82 @@ def generate(arena):
             max_mass=100,
         allies=[2,1]
         )
-        ship.register_pilot(generate_pilot(random.randint(1,5)))
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1,5)))
         for i in range(10):
-            ship.register_gunner(generate_gunner(random.randint(1, 5)))
+            ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
 
-        ship.register_weapon(PlasmaBeam())
+        ship.register_weapon(kob.weapons.PlasmaBeam())
 
         ship.register_AI(1)
         ships.append(ship)
 
     # position them
-    position_ships(arena, ships, (20, 20, 0))
+    kob.generate.position_ships(arena, ships, (20, 20, 0))
+
+
+def generate_enemy_fleet(arena):
+    """
+    Fleet 3: Veng
+    1x Veng Super Cruiser
+     Hit Points: 120 Crew: 250/1,600 Speed: 3 Armor: 25 AC: 4
+    Implosion Field Projector (+10 to hit/4d20+2(Forces fighters to save vs death), AP 25, Phase 2), “Ramrod” Warp-line Gun (+10 to hit/2d20+42, AP 25),
+    “Antaeus” Siege Missiles (Special, can hit things that take cover behind planets)
+    Hardened Polyceramic Overlay
+    Spike Drive-4,
+    750 Veng Fighter Bombers
+    Hit Points: 10 Crew 1/1 Speed: 4 Armor:6 AC 3
+    2x Plasma Beams (+6 to hit/3d6+1, AP 10)
+    Hardened Polyceramic Overlay
+    Spike 3
+    """
+    # kob.generate.generate_fleet(arena, size=10, team=1, center=(0, 0, 0))
+    # kob.generate.generate_fleet(arena, size=10, team=2, center=(0, 0, 100))
+    # kob.generate.generate_fleet(arena, size=10, team=3, center=(100, 0, 0))
+
+    ships = []
+
+    ship = kob.ships.Cruiser(
+        hp=120,
+        speed=3,
+        armor=25+5, #5 armor because of reduced AP of attacking weapons due to polyceramic overlay.
+        AC=4,
+        team=3,
+        crew_max=1600,
+        spike=4
+    )
+    pilot = kob.generate.generate_pilot(ship.ship_class + random.randint(1, 5))
+    ship.register_pilot(pilot)
+
+    for i in range(249):
+        gunner = kob.generate.generate_gunner(ship.ship_class + random.randint(1, 5))
+        ship.register_gunner(gunner)
+
+    ship.register_weapon(kob.weapons.ImplosionFieldProjector(wrange=8))
+    ship.register_weapon(kob.weapons.RandrodWarpLineGun(wrange=8))
+    #TODO SiegeMissiles
+
+    ship.register_AI(1)
+    ships.append(ship)
+
+    for i in range(750):
+        ship = kob.ships.Fighter(
+            team=3,
+            hp=10,
+            speed=4,
+            armor=6,
+            AC=3,
+            spike=3,
+            crew_max=2,
+            max_power=10,
+            max_hardpoints=10,
+            max_mass=10
+        )
+        ship.register_pilot(kob.generate.generate_pilot(random.randint(1, 5)))
+        ship.register_gunner(kob.generate.generate_gunner(random.randint(1, 5)))
+        ship.register_weapon(kob.weapons.PlasmaBeam())
+        ship.register_weapon(kob.weapons.PlasmaBeam())
+
+        ship.register_AI(1)
+        ships.append(ship)
+
+    kob.generate.position_ships(arena, ships, (10, 10, 50))
